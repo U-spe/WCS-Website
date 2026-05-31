@@ -9,52 +9,53 @@ export default async function handler(req, res) {
         businessType,
         colors,
         visualStyle,
-        requiredPages,
         seed
     } = req.body || {};
 
     const templatePool = [
-        "saas_dark_glow_v1",
-        "saas_dark_glass_v2",
-        "saas_light_minimal_v1",
-        "startup_modern_v1",
-        "startup_modern_v2",
-        "agency_split_hero_v1",
-        "agency_gradient_v1",
-        "portfolio_grid_v1",
-        "portfolio_masonry_v1",
-        "ecommerce_showcase_v1",
-        "ecommerce_luxury_v1",
-        "ecommerce_product_v1",
-        "landing_conversion_v1",
-        "landing_conversion_v2",
-        "app_saas_v1",
-        "app_saas_v2",
-        "dashboard_preview_v1",
-        "nonprofit_story_v1",
-        "nonprofit_impact_v1",
-        "creative_studio_v1"
+        "hero_center_features_grid",
+        "hero_split_right_media",
+        "hero_gradient_overlay",
+        "hero_minimal_text_focus",
+        "hero_dark_glass_saas",
+
+        "agency_storytelling_layout",
+        "startup_pitch_deck_style",
+        "portfolio_masonry_flow",
+        "ecommerce_showcase_grid",
+        "ecommerce_luxury_focus",
+
+        "app_dashboard_preview",
+        "app_feature_highlight_stack",
+        "nonprofit_story_driven",
+        "landing_conversion_funnel",
+        "product_waitlist_launch",
+
+        "modern_saas_sections",
+        "bold_typography_layout",
+        "image_first_visual_flow",
+        "grid_based_modern_ui",
+        "editorial_magazine_style"
     ];
 
     const prompt = `
-You are a senior UX architect and product designer.
+You are a senior UX architect.
 
-IMPORTANT:
-- Return ONLY valid JSON
-- No markdown
-- No explanations
+CRITICAL:
+Return ONLY valid JSON.
+No markdown.
+No explanations.
 
-Variation Seed: ${seed || Math.floor(Math.random() * 99999)}
+Variation Seed: ${seed || Math.floor(Math.random() * 999999)}
 
-Pick ONE template from this list:
+YOU MUST SELECT ONE TEMPLATE:
 ${templatePool.join(", ")}
 
 RULES:
-- Must vary design based on seed
-- Must NOT repeat same layout patterns
-- Must feel like Stripe / Vercel / Linear quality
-- MUST include rich content (not minimal)
-- Add multiple text layers per section
+- MUST vary layout based on seed
+- MUST create unique feature content every time
+- MUST avoid repetition from previous outputs
+- MUST behave like Wix/Framer layout engine
 
 Business:
 Name: ${name}
@@ -64,20 +65,33 @@ Colors: ${colors || "auto"}
 Style: ${visualStyle}
 
 OUTPUT FORMAT:
+
 {
   "siteName": "",
   "template": "",
+
   "theme": {
     "primaryColor": "",
     "background": ""
   },
-  "sections": ["hero", "features", "about", "cta", "footer"],
-  "content": {
-    "heroHeadline": "",
-    "heroSubtext": "",
-    "heroSupportingText": "",
-    "ctaText": ""
-  }
+
+  "hero": {
+    "headline": "",
+    "subtext": "",
+    "supportText": "",
+    "buttons": ["Primary Action", "Secondary Action"]
+  },
+
+  "features": [
+    { "title": "", "description": "" },
+    { "title": "", "description": "" },
+    { "title": "", "description": "" },
+    { "title": "", "description": "" },
+    { "title": "", "description": "" },
+    { "title": "", "description": "" }
+  ],
+
+  "sections": ["hero", "features", "about", "cta"]
 }
 `;
 
@@ -90,13 +104,12 @@ OUTPUT FORMAT:
             },
             body: JSON.stringify({
                 model: "llama-3.3-70b-versatile",
-                temperature: 0.6,
+                temperature: 0.75,
                 messages: [{ role: "user", content: prompt }]
             })
         });
 
         const data = await response.json();
-
         const jsonText = data?.choices?.[0]?.message?.content;
 
         if (!jsonText) {
