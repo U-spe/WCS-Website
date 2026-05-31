@@ -1,12 +1,31 @@
-const res = await fetch("/api/generate", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(data)
-});
+async function generateSite() {
 
-const json = await res.json();
+    const data = {
+        name: document.getElementById("name").value,
+        industry: document.getElementById("industry").value,
+        description: document.getElementById("description").value,
+        tone: document.getElementById("tone").value,
+        color: document.getElementById("color").value
+    };
 
-console.log("FULL RESPONSE:", json);
+    try {
+        const res = await fetch("/api/generate", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data)
+        });
 
-document.getElementById("output").textContent =
-    JSON.stringify(json, null, 2);
+        const json = await res.json();
+
+        console.log("FULL RESPONSE:", json);
+
+        document.getElementById("output").textContent =
+            JSON.stringify(json, null, 2);
+
+    } catch (err) {
+        console.error("ERROR:", err);
+
+        document.getElementById("output").textContent =
+            "Error: " + err.message;
+    }
+}
