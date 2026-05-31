@@ -7,76 +7,150 @@
 <link rel="stylesheet" href="../css/main.css">
 
 <style>
-body {
-    margin: 0;
-    display: flex;
-    height: 100vh;
-    overflow: hidden;
-    background: #050505;
-    color: white;
-    font-family: Arial;
+:root {
+    --bg: #050505;
+    --panel: rgba(15, 23, 42, 0.55);
+    --border: rgba(255,255,255,0.08);
+    --text: #ffffff;
+    --muted: #9ca3af;
+
+    --primary: #2563eb;
+    --secondary: #7c3aed;
+    --accent: #22d3ee;
+
+    --radius: 18px;
 }
 
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    overflow: hidden;
+    background: radial-gradient(circle at top, #0b0f1a, var(--bg));
+    color: var(--text);
+    font-family: Inter, system-ui, Arial;
+}
+
+/* ======================
+   LEFT PANEL
+====================== */
+
 .panel {
-    width: 340px;
-    background: rgba(17,24,39,0.6);
-    border-right: 1px solid rgba(255,255,255,0.08);
-    padding: 1.5rem;
-    overflow-y: auto;
+    width: 360px;
+    padding: 24px;
+    background: var(--panel);
+    backdrop-filter: blur(18px);
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
 }
 
 .panel h1 {
-    font-size: 1.4rem;
-    margin-bottom: 1rem;
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+    letter-spacing: 0.5px;
 }
 
+/* inputs */
 input, textarea, select {
     width: 100%;
-    padding: 0.8rem;
-    margin-bottom: 0.8rem;
-    border-radius: 10px;
-    border: 1px solid rgba(255,255,255,0.1);
-    background: rgba(0,0,0,0.4);
+    padding: 12px 14px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    background: rgba(0,0,0,0.35);
     color: white;
+    outline: none;
+    transition: 0.2s ease;
 }
 
+input:focus, textarea:focus, select:focus {
+    border-color: rgba(34,211,238,0.6);
+    box-shadow: 0 0 0 3px rgba(34,211,238,0.08);
+}
+
+/* buttons */
 button {
     width: 100%;
-    padding: 0.9rem;
-    margin-top: 0.5rem;
+    padding: 12px;
     border-radius: 999px;
     border: none;
     cursor: pointer;
+    font-weight: 600;
+    transition: 0.25s ease;
 }
 
 .primary {
-    background: linear-gradient(135deg, #2563eb, #7c3aed);
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
     color: white;
 }
 
+.primary:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.1);
+}
+
 .secondary {
-    background: transparent;
-    border: 1px solid rgba(255,255,255,0.1);
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border);
     color: white;
 }
+
+.secondary:hover {
+    background: rgba(255,255,255,0.08);
+    transform: translateY(-2px);
+}
+
+/* ======================
+   RIGHT PREVIEW
+====================== */
 
 .preview {
     flex: 1;
     display: flex;
     flex-direction: column;
+    background: #0a0a0a;
 }
 
 .preview-bar {
-    padding: 0.8rem;
-    border-bottom: 1px solid rgba(255,255,255,0.08);
-    color: #aaa;
-    font-size: 0.9rem;
+    padding: 12px 16px;
+    font-size: 0.85rem;
+    color: var(--muted);
+    border-bottom: 1px solid var(--border);
+    background: rgba(0,0,0,0.4);
+    backdrop-filter: blur(10px);
 }
 
+/* iframe */
 iframe {
     flex: 1;
     border: none;
     background: white;
+}
+
+/* ======================
+   SMALL SCREEN SUPPORT
+====================== */
+
+@media (max-width: 900px) {
+    body {
+        flex-direction: column;
+    }
+
+    .panel {
+        width: 100%;
+        height: auto;
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+    }
+
+    iframe {
+        height: 100%;
+    }
 }
 </style>
 
@@ -90,6 +164,7 @@ iframe {
 
     <input id="name" placeholder="Business Name">
     <input id="industry" placeholder="Industry">
+
     <textarea id="description" placeholder="Describe your business"></textarea>
 
     <select id="tone">
