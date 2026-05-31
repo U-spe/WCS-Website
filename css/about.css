@@ -1,0 +1,237 @@
+/* =========================
+   ABOUT PAGE STYLES
+   Web Creation Studios
+========================= */
+
+/* HERO / HEADER */
+
+.about-header {
+    max-width: 1000px;
+    margin: auto;
+    text-align: center;
+    padding: 9rem 2rem 5rem;
+}
+
+.page-tag {
+    display: inline-block;
+    color: var(--sky-blue);
+    letter-spacing: 3px;
+    font-size: 0.85rem;
+    margin-bottom: 1.5rem;
+}
+
+.about-header h1 {
+    font-size: clamp(2.8rem, 6vw, 5rem);
+    line-height: 1.05;
+}
+
+.about-header h1 span {
+    display: block;
+
+    background: linear-gradient(
+        90deg,
+        var(--sky-blue),
+        var(--blue),
+        var(--purple)
+    );
+
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.about-header p {
+    max-width: 750px;
+    margin: 2rem auto 0;
+    color: var(--text-muted);
+    font-size: 1.1rem;
+    line-height: 1.8;
+}
+
+/* SECTIONS BASE */
+
+.story-section,
+.mission-section,
+.values-section,
+.timeline-section,
+.about-cta {
+    max-width: 1300px;
+    margin: auto;
+    padding: 5rem 2rem;
+}
+
+/* STORY */
+
+.story-content {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 3rem;
+    align-items: start;
+}
+
+.story-text {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 2.5rem;
+}
+
+.story-text h2 {
+    margin-bottom: 1.5rem;
+    font-size: 2rem;
+}
+
+.story-text p {
+    color: var(--text-muted);
+    line-height: 1.9;
+    margin-bottom: 1rem;
+}
+
+.story-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 2.5rem;
+}
+
+.story-card h3 {
+    margin-bottom: 1.5rem;
+}
+
+.story-card ul {
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+    color: var(--text-muted);
+}
+
+/* MISSION */
+
+.mission-card {
+    text-align: center;
+    padding: 4rem 2rem;
+
+    border-radius: 30px;
+    border: 1px solid var(--border);
+
+    background: linear-gradient(
+        135deg,
+        rgba(37,99,235,.15),
+        rgba(124,58,237,.15)
+    );
+}
+
+.mission-card span {
+    color: var(--sky-blue);
+    letter-spacing: 3px;
+}
+
+.mission-card h2 {
+    margin-top: 1.5rem;
+    font-size: clamp(2rem, 4.5vw, 3.5rem);
+    line-height: 1.2;
+}
+
+/* VALUES */
+
+.values-section h2,
+.timeline-section h2 {
+    text-align: center;
+    margin-bottom: 3rem;
+    font-size: 2.2rem;
+}
+
+.values-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 2rem;
+}
+
+.value-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 2rem;
+
+    transition: 0.3s ease;
+}
+
+.value-box:hover {
+    transform: translateY(-6px);
+    border-color: rgba(56, 189, 248, 0.35);
+}
+
+.value-box h3 {
+    margin-bottom: 0.8rem;
+}
+
+.value-box p {
+    color: var(--text-muted);
+    line-height: 1.7;
+}
+
+/* TIMELINE */
+
+.timeline {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+}
+
+.timeline-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 2rem;
+
+    transition: 0.3s ease;
+}
+
+.timeline-item:hover {
+    transform: translateY(-6px);
+}
+
+.timeline-item span {
+    color: var(--sky-blue);
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+.timeline-item h3 {
+    margin: 1rem 0;
+}
+
+.timeline-item p {
+    color: var(--text-muted);
+    line-height: 1.7;
+}
+
+/* CTA */
+
+.about-cta {
+    text-align: center;
+}
+
+.about-cta h2 {
+    font-size: clamp(2rem, 4.5vw, 3.5rem);
+}
+
+.about-cta p {
+    max-width: 700px;
+    margin: 1.5rem auto 2rem;
+    color: var(--text-muted);
+    line-height: 1.8;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 900px) {
+
+    .story-content {
+        grid-template-columns: 1fr;
+    }
+
+    .about-header {
+        padding: 7rem 2rem 4rem;
+    }
+
+}
