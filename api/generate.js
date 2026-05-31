@@ -15,38 +15,25 @@ export default async function handler(req, res) {
     const prompt = `
 You are a senior UX architect.
 
-You ONLY output VALID JSON.
+Return ONLY valid JSON. No markdown. No text.
 
-DO NOT output HTML.
-DO NOT output explanations.
-DO NOT output markdown.
+Create a website plan.
 
-Create a website layout plan.
-
-BUSINESS:
+Business:
 Name: ${name}
 Description: ${description}
 Type: ${businessType}
 Colors: ${colors || "auto"}
 Style: ${visualStyle}
-Sections requested: ${requiredPages}
 
-OUTPUT FORMAT (STRICT JSON):
+Return format:
 {
   "siteName": "",
   "theme": {
     "primaryColor": "",
-    "background": "",
-    "style": ""
+    "background": ""
   },
-  "layout": "saas | agency | portfolio | ecommerce | nonprofit",
-  "sections": [
-    "hero",
-    "features",
-    "about",
-    "cta",
-    "footer"
-  ],
+  "sections": ["hero", "features", "about", "cta"],
   "content": {
     "heroHeadline": "",
     "heroSubtext": "",
@@ -65,22 +52,20 @@ OUTPUT FORMAT (STRICT JSON):
             body: JSON.stringify({
                 model: "llama-3.3-70b-versatile",
                 temperature: 0.1,
-                messages: [
-                    { role: "user", content: prompt }
-                ]
+                messages: [{ role: "user", content: prompt }]
             })
         });
 
         const data = await response.json();
 
-        let jsonText = data?.choices?.[0]?.message?.content;
+        const jsonText = data?.choices?.[0]?.message?.content;
 
         if (!jsonText) {
             return res.status(500).json({ error: "No output from AI" });
         }
 
-        // IMPORTANT: parse AI JSON safely
         let parsed;
+
         try {
             parsed = JSON.parse(jsonText);
         } catch (e) {
