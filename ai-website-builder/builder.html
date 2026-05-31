@@ -17,7 +17,6 @@ body {
     font-family: Arial;
 }
 
-/* LEFT PANEL */
 .panel {
     width: 340px;
     background: rgba(17,24,39,0.6);
@@ -61,7 +60,6 @@ button {
     color: white;
 }
 
-/* RIGHT PREVIEW */
 .preview {
     flex: 1;
     display: flex;
@@ -92,14 +90,13 @@ iframe {
 
     <input id="name" placeholder="Business Name">
     <input id="industry" placeholder="Industry">
-
     <textarea id="description" placeholder="Describe your business"></textarea>
 
     <select id="tone">
-        <option>Modern</option>
-        <option>Corporate</option>
-        <option>Luxury</option>
-        <option>Minimal</option>
+        <option value="modern">Modern</option>
+        <option value="corporate">Corporate</option>
+        <option value="luxury">Luxury</option>
+        <option value="minimal">Minimal</option>
     </select>
 
     <input id="color" placeholder="Colors (optional)">
@@ -111,11 +108,8 @@ iframe {
 </div>
 
 <div class="preview">
-
     <div class="preview-bar">Live Preview</div>
-
     <iframe id="frame"></iframe>
-
 </div>
 
 <script src="/ai-website-builder/builder.js"></script>
