@@ -1,3 +1,5 @@
+let lastGeneratedCode = "";
+
 async function generateSite() {
 
     const data = {
@@ -16,16 +18,40 @@ async function generateSite() {
         });
 
         const json = await res.json();
-
         console.log("FULL RESPONSE:", json);
 
-        document.getElementById("output").textContent =
-            JSON.stringify(json, null, 2);
+        if (json.error) {
+            alert("API Error: " + json.error);
+            return;
+        }
+
+        const code = json.result;
+
+        if (!code) {
+            alert("No code returned from AI");
+            return;
+        }
+
+        lastGeneratedCode = code;
+
+        document.getElementById("frame").srcdoc = code;
 
     } catch (err) {
-        console.error("ERROR:", err);
-
-        document.getElementById("output").textContent =
-            "Error: " + err.message;
+        console.error(err);
+        alert("Request failed: " + err.message);
     }
+}
+
+function regenerate() {
+    generateSite();
+}
+
+function copyCode() {
+    if (!lastGeneratedCode) {
+        alert("No code to copy yet");
+        return;
+    }
+
+    navigator.clipboard.writeText(lastGeneratedCode);
+    alert("Code copied!");
 }
