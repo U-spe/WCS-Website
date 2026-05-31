@@ -18,7 +18,6 @@ async function generateSite(forceNew = false) {
         businessType: document.getElementById("industry")?.value || "",
         colors: document.getElementById("color").value,
         visualStyle: document.getElementById("tone").value,
-        requiredPages: ["hero", "features", "about", "cta", "footer"],
         seed: regenSeed
     };
 
@@ -31,11 +30,9 @@ async function generateSite(forceNew = false) {
 
         const json = await res.json();
 
-        console.log("AI RESPONSE:", json);
-
         if (!json || json.error) {
-            alert("AI Error — check console");
             console.log(json);
+            alert("AI Error — check console");
             return;
         }
 
@@ -51,7 +48,7 @@ async function generateSite(forceNew = false) {
 }
 
 /* =========================
-   REGENERATE (FORCES NEW DESIGN)
+   REGENERATE (FORCES NEW LAYOUT)
 ========================= */
 
 function regenerate() {
@@ -63,22 +60,19 @@ function regenerate() {
 ========================= */
 
 function copyCode() {
-    if (!lastHTML) {
-        alert("Nothing to copy");
-        return;
-    }
-
+    if (!lastHTML) return alert("Nothing yet");
     navigator.clipboard.writeText(lastHTML);
     alert("Copied!");
 }
 
 /* =========================
-   WIX-STYLE TEMPLATE ENGINE
+   V4 TEMPLATE ENGINE
 ========================= */
 
 function buildWebsite(data) {
     const theme = data.theme || {};
-    const sections = data.sections || [];
+    const hero = data.hero || {};
+    const features = data.features || [];
 
     return `
 <!DOCTYPE html>
@@ -90,49 +84,53 @@ function buildWebsite(data) {
 <style>
 body {
     margin: 0;
-    font-family: Inter, system-ui, Arial;
+    font-family: Inter, system-ui;
     background: ${theme.background || "#0b0f1a"};
     color: white;
 }
 
+/* GLOBAL */
 .container {
     max-width: 1100px;
     margin: auto;
     padding: 80px 20px;
 }
 
-.section {
-    padding: 90px 0;
-}
-
-/* HERO */
+/* HERO VARIANTS (V4 CORE) */
 .hero {
-    text-align: center;
     padding: 140px 20px;
+    text-align: center;
 }
 
 .hero h1 {
-    font-size: 3.2rem;
-    margin-bottom: 10px;
+    font-size: 3.5rem;
 }
 
 .hero p {
-    opacity: 0.75;
+    opacity: 0.8;
     max-width: 700px;
     margin: auto;
 }
 
-.hero small {
-    display: block;
-    margin-top: 15px;
-    opacity: 0.6;
+.hero-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 20px;
 }
 
-/* FEATURES */
+.btn {
+    padding: 12px 18px;
+    border-radius: 999px;
+    background: ${theme.primaryColor || "#4f46e5"};
+}
+
+/* FEATURES (NOW FULLY DYNAMIC) */
 .features {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
     gap: 20px;
+    padding: 80px 20px;
 }
 
 .card {
@@ -146,22 +144,19 @@ body {
     margin-bottom: 8px;
 }
 
+/* ABOUT */
+.about {
+    padding: 100px 20px;
+    max-width: 900px;
+    margin: auto;
+    text-align: center;
+}
+
 /* CTA */
 .cta {
     text-align: center;
     padding: 100px 20px;
     background: rgba(99,102,241,0.15);
-}
-
-.button {
-    display: inline-block;
-    margin-top: 20px;
-    padding: 12px 22px;
-    border-radius: 999px;
-    background: ${theme.primaryColor || "#4f46e5"};
-    color: white;
-    text-decoration: none;
-    font-weight: 600;
 }
 </style>
 
@@ -169,76 +164,39 @@ body {
 
 <body>
 
-<div class="container">
+<section class="hero">
+    <h1>${hero.headline}</h1>
+    <p>${hero.subtext}</p>
 
-${renderHero(data)}
-${sections.includes("features") ? renderFeatures(data) : ""}
-${sections.includes("about") ? renderAbout(data) : ""}
-${sections.includes("cta") ? renderCTA(data) : ""}
+    <div class="hero-buttons">
+        ${(hero.buttons || []).map(b => `<div class="btn">${b}</div>`).join("")}
+    </div>
 
-</div>
+    <p style="opacity:0.6;margin-top:20px;">
+        ${hero.supportText || ""}
+    </p>
+</section>
+
+<section class="features">
+    ${features.map(f => `
+        <div class="card">
+            <h3>${f.title}</h3>
+            <p>${f.description}</p>
+        </div>
+    `).join("")}
+</section>
+
+<section class="about">
+    <h2>About</h2>
+    <p>${data.description || ""}</p>
+</section>
+
+<section class="cta">
+    <h2>Ready to build something powerful?</h2>
+    <div class="btn">Get Started</div>
+</section>
 
 </body>
 </html>
-`;
-}
-
-/* =========================
-   COMPONENTS (NOW DENSE)
-========================= */
-
-function renderHero(data) {
-    return `
-<section class="hero">
-    <h1>${data.content?.heroHeadline || "Build Something Powerful"}</h1>
-    <p>${data.content?.heroSubtext || "Modern AI-generated websites with real structure and design systems."}</p>
-    <small>${data.content?.heroSupportingText || "Designed with Wix-style architecture engine"}</small>
-
-    <div class="button">${data.content?.ctaText || "Get Started"}</div>
-</section>
-`;
-}
-
-function renderFeatures() {
-    return `
-<section class="section features">
-    <div class="card">
-        <h3>High Performance</h3>
-        <p>Optimized layout structure for speed and scalability.</p>
-    </div>
-
-    <div class="card">
-        <h3>Modern Design System</h3>
-        <p>Consistent spacing, typography, and UI hierarchy.</p>
-    </div>
-
-    <div class="card">
-        <h3>AI Structured Layouts</h3>
-        <p>Automatically generated professional design patterns.</p>
-    </div>
-
-    <div class="card">
-        <h3>Conversion Focused</h3>
-        <p>Built to increase engagement and user interaction.</p>
-    </div>
-</section>
-`;
-}
-
-function renderAbout(data) {
-    return `
-<section class="section">
-    <h2>About</h2>
-    <p>${data.content?.heroSubtext || "We build high-quality modern web experiences using AI-driven design systems."}</p>
-</section>
-`;
-}
-
-function renderCTA(data) {
-    return `
-<section class="cta">
-    <h2>Ready to Launch?</h2>
-    <div class="button">${data.content?.ctaText || "Start Now"}</div>
-</section>
 `;
 }
