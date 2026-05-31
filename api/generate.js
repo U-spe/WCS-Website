@@ -13,7 +13,7 @@ export default async function handler(req, res) {
     } = req.body || {};
 
     const prompt = `
-You are a senior UI/UX designer and expert frontend engineer.
+You are a senior UI/UX website designer and expert frontend engineer.
 
 You generate ONLY production-grade, modern SaaS websites.
 
@@ -90,11 +90,11 @@ Generate a complete single-page website using:
                 "Authorization": `Bearer ${process.env.GROQ_API_KEY}`
             },
             body: JSON.stringify({
-                model: "mixtral-8x7b-32768",
+                model: "llama-3.1-70b-versatile",
                 messages: [
                     { role: "user", content: prompt }
                 ],
-                temperature: 0.6
+                temperature: 0.1
             })
         });
 
