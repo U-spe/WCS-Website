@@ -1,57 +1,98 @@
-let lastGeneratedCode = "";
+export default async function handler(req, res) {
+    if (req.method !== "POST") {
+        return res.status(405).json({ error: "Method not allowed" });
+    }
 
-async function generateSite() {
+    const {
+        name,
+        description,
+        businessType,
+        colors,
+        visualStyle,
+        requiredPages
+    } = req.body || {};
 
-    const data = {
-        name: document.getElementById("name").value,
-        industry: document.getElementById("industry").value,
-        description: document.getElementById("description").value,
-        tone: document.getElementById("tone").value,
-        color: document.getElementById("color").value
-    };
+    const prompt = `
+You are a senior UX architect.
+
+You ONLY output VALID JSON.
+
+DO NOT output HTML.
+DO NOT output explanations.
+DO NOT output markdown.
+
+Create a website layout plan.
+
+BUSINESS:
+Name: ${name}
+Description: ${description}
+Type: ${businessType}
+Colors: ${colors || "auto"}
+Style: ${visualStyle}
+Sections requested: ${requiredPages}
+
+OUTPUT FORMAT (STRICT JSON):
+{
+  "siteName": "",
+  "theme": {
+    "primaryColor": "",
+    "background": "",
+    "style": ""
+  },
+  "layout": "saas | agency | portfolio | ecommerce | nonprofit",
+  "sections": [
+    "hero",
+    "features",
+    "about",
+    "cta",
+    "footer"
+  ],
+  "content": {
+    "heroHeadline": "",
+    "heroSubtext": "",
+    "ctaText": ""
+  }
+}
+`;
 
     try {
-        const res = await fetch("/api/generate", {
+        const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(data)
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${process.env.GROQ_API_KEY}`
+            },
+            body: JSON.stringify({
+                model: "llama-3.3-70b-versatile",
+                temperature: 0.1,
+                messages: [
+                    { role: "user", content: prompt }
+                ]
+            })
         });
 
-        const json = await res.json();
-        console.log("FULL RESPONSE:", json);
+        const data = await response.json();
 
-        if (json.error) {
-            alert("API Error: " + json.error);
-            return;
+        let jsonText = data?.choices?.[0]?.message?.content;
+
+        if (!jsonText) {
+            return res.status(500).json({ error: "No output from AI" });
         }
 
-        const code = json.result;
-
-        if (!code) {
-            alert("No code returned from AI");
-            return;
+        // IMPORTANT: parse AI JSON safely
+        let parsed;
+        try {
+            parsed = JSON.parse(jsonText);
+        } catch (e) {
+            return res.status(500).json({
+                error: "AI returned invalid JSON",
+                raw: jsonText
+            });
         }
 
-        lastGeneratedCode = code;
-
-        document.getElementById("frame").srcdoc = code;
+        return res.status(200).json(parsed);
 
     } catch (err) {
-        console.error(err);
-        alert("Request failed: " + err.message);
+        return res.status(500).json({ error: err.message });
     }
-}
-
-function regenerate() {
-    generateSite();
-}
-
-function copyCode() {
-    if (!lastGeneratedCode) {
-        alert("No code to copy yet");
-        return;
-    }
-
-    navigator.clipboard.writeText(lastGeneratedCode);
-    alert("Code copied!");
 }
