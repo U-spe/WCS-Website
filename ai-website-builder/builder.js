@@ -1,14 +1,25 @@
 let lastGeneratedJSON = null;
 let lastHTML = "";
+let regenSeed = null;
 
-async function generateSite() {
+/* =========================
+   GENERATE SITE
+========================= */
+
+async function generateSite(forceNew = false) {
+
+    if (forceNew || !regenSeed) {
+        regenSeed = Math.floor(Math.random() * 999999);
+    }
+
     const data = {
         name: document.getElementById("name").value,
         description: document.getElementById("description").value,
         businessType: document.getElementById("industry")?.value || "",
         colors: document.getElementById("color").value,
         visualStyle: document.getElementById("tone").value,
-        requiredPages: ["hero", "features", "about", "cta", "footer"]
+        requiredPages: ["hero", "features", "about", "cta", "footer"],
+        seed: regenSeed
     };
 
     try {
@@ -29,7 +40,6 @@ async function generateSite() {
         }
 
         lastGeneratedJSON = json;
-
         lastHTML = buildWebsite(json);
 
         document.getElementById("frame").srcdoc = lastHTML;
@@ -40,17 +50,21 @@ async function generateSite() {
     }
 }
 
+/* =========================
+   REGENERATE (FORCES NEW DESIGN)
+========================= */
+
 function regenerate() {
-    if (!lastGeneratedJSON) {
-        alert("Generate a site first");
-        return;
-    }
-    generateSite();
+    generateSite(true);
 }
+
+/* =========================
+   COPY CODE
+========================= */
 
 function copyCode() {
     if (!lastHTML) {
-        alert("Nothing to copy yet");
+        alert("Nothing to copy");
         return;
     }
 
@@ -59,7 +73,7 @@ function copyCode() {
 }
 
 /* =========================
-   WIX-LEVEL RENDER ENGINE (FIXED)
+   WIX-STYLE TEMPLATE ENGINE
 ========================= */
 
 function buildWebsite(data) {
@@ -71,7 +85,7 @@ function buildWebsite(data) {
 <html>
 <head>
 <meta charset="UTF-8">
-<title>${data.siteName || "Website"}</title>
+<title>${data.siteName || "AI Site"}</title>
 
 <style>
 body {
@@ -81,7 +95,6 @@ body {
     color: white;
 }
 
-/* GLOBAL */
 .container {
     max-width: 1100px;
     margin: auto;
@@ -89,49 +102,57 @@ body {
 }
 
 .section {
-    padding: 80px 0;
+    padding: 90px 0;
 }
 
 /* HERO */
 .hero {
     text-align: center;
-    padding: 120px 20px;
+    padding: 140px 20px;
 }
 
 .hero h1 {
-    font-size: 3rem;
+    font-size: 3.2rem;
     margin-bottom: 10px;
 }
 
 .hero p {
-    opacity: 0.8;
-    max-width: 600px;
+    opacity: 0.75;
+    max-width: 700px;
     margin: auto;
+}
+
+.hero small {
+    display: block;
+    margin-top: 15px;
+    opacity: 0.6;
 }
 
 /* FEATURES */
 .features {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
     gap: 20px;
 }
 
 .card {
     padding: 20px;
-    border-radius: 14px;
+    border-radius: 16px;
     background: rgba(255,255,255,0.05);
     border: 1px solid rgba(255,255,255,0.08);
+}
+
+.card h3 {
+    margin-bottom: 8px;
 }
 
 /* CTA */
 .cta {
     text-align: center;
-    padding: 90px 20px;
+    padding: 100px 20px;
     background: rgba(99,102,241,0.15);
-    border-top: 1px solid rgba(255,255,255,0.08);
 }
 
-/* BUTTON */
 .button {
     display: inline-block;
     margin-top: 20px;
@@ -151,11 +172,8 @@ body {
 <div class="container">
 
 ${renderHero(data)}
-
-${sections.includes("features") ? renderFeatures() : ""}
-
+${sections.includes("features") ? renderFeatures(data) : ""}
 ${sections.includes("about") ? renderAbout(data) : ""}
-
 ${sections.includes("cta") ? renderCTA(data) : ""}
 
 </div>
@@ -166,14 +184,16 @@ ${sections.includes("cta") ? renderCTA(data) : ""}
 }
 
 /* =========================
-   COMPONENTS (THIS FIXES YOUR CRASH)
+   COMPONENTS (NOW DENSE)
 ========================= */
 
 function renderHero(data) {
     return `
 <section class="hero">
-    <h1>${data.content?.heroHeadline || "Build Something Amazing"}</h1>
-    <p>${data.content?.heroSubtext || "Modern websites generated instantly."}</p>
+    <h1>${data.content?.heroHeadline || "Build Something Powerful"}</h1>
+    <p>${data.content?.heroSubtext || "Modern AI-generated websites with real structure and design systems."}</p>
+    <small>${data.content?.heroSupportingText || "Designed with Wix-style architecture engine"}</small>
+
     <div class="button">${data.content?.ctaText || "Get Started"}</div>
 </section>
 `;
@@ -182,9 +202,25 @@ function renderHero(data) {
 function renderFeatures() {
     return `
 <section class="section features">
-    <div class="card">Fast Performance</div>
-    <div class="card">Modern Design</div>
-    <div class="card">AI Powered</div>
+    <div class="card">
+        <h3>High Performance</h3>
+        <p>Optimized layout structure for speed and scalability.</p>
+    </div>
+
+    <div class="card">
+        <h3>Modern Design System</h3>
+        <p>Consistent spacing, typography, and UI hierarchy.</p>
+    </div>
+
+    <div class="card">
+        <h3>AI Structured Layouts</h3>
+        <p>Automatically generated professional design patterns.</p>
+    </div>
+
+    <div class="card">
+        <h3>Conversion Focused</h3>
+        <p>Built to increase engagement and user interaction.</p>
+    </div>
 </section>
 `;
 }
@@ -193,7 +229,7 @@ function renderAbout(data) {
     return `
 <section class="section">
     <h2>About</h2>
-    <p>${data.content?.heroSubtext || "We build modern web experiences."}</p>
+    <p>${data.content?.heroSubtext || "We build high-quality modern web experiences using AI-driven design systems."}</p>
 </section>
 `;
 }
@@ -201,8 +237,8 @@ function renderAbout(data) {
 function renderCTA(data) {
     return `
 <section class="cta">
-    <h2>Ready to Start?</h2>
-    <div class="button">${data.content?.ctaText || "Contact Us"}</div>
+    <h2>Ready to Launch?</h2>
+    <div class="button">${data.content?.ctaText || "Start Now"}</div>
 </section>
 `;
 }
