@@ -3,7 +3,7 @@ export default async function handler(req, res) {
         return res.status(405).json({ error: "Method not allowed" });
     }
 
-    const { name, industry, description, tone, color } = req.body;
+    const { name, industry, description, tone, color } = req.body || {};
 
     const prompt = `
 You are an expert web designer.
@@ -38,18 +38,50 @@ RULES:
             },
             body: JSON.stringify({
                 model: "llama-3.1-70b-versatile",
-                messages: [{ role: "user", content: prompt }],
+                messages: [
+                    { role: "user", content: prompt }
+                ],
                 temperature: 0.7
             })
         });
 
-        const data = await response.json();
+        // ❌ Handle Groq request failure properly
+        if (!response.ok) {
+            const errText = await response.text();
+            return res.status(response.status).json({
+                error: "Groq API error",
+                details: errText
+            });
+        }
+
+        const text = await response.text();
+
+        let data;
+        try {
+            data = JSON.parse(text);
+        } catch (err) {
+            return res.status(500).json({
+                error: "Groq returned invalid JSON",
+                raw: text
+            });
+        }
 
         const output = data?.choices?.[0]?.message?.content;
 
-        res.status(200).json({ result: output });
+        if (!output) {
+            return res.status(500).json({
+                error: "No AI output returned",
+                raw: data
+            });
+        }
+
+        return res.status(200).json({
+            result: output
+        });
 
     } catch (err) {
-        res.status(500).json({ error: err.message });
+        return res.status(500).json({
+            error: err.message
+        });
     }
 }
