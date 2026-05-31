@@ -13,73 +13,46 @@ export default async function handler(req, res) {
     } = req.body || {};
 
     const prompt = `
-You are a senior UI/UX website designer and expert frontend engineer.
+You are a senior UX architect.
 
-You generate ONLY production-grade, modern SaaS websites.
+You ONLY output VALID JSON.
 
-────────────────────────
-BUSINESS DATA
-────────────────────────
+DO NOT output HTML.
+DO NOT output explanations.
+DO NOT output markdown.
+
+Create a website layout plan.
+
+BUSINESS:
 Name: ${name}
 Description: ${description}
-Business Type: ${businessType}
-Colors: ${colors || "auto-generate a modern SaaS palette"}
-Visual Style: ${visualStyle}
-Required Sections: ${requiredPages}
+Type: ${businessType}
+Colors: ${colors || "auto"}
+Style: ${visualStyle}
+Sections requested: ${requiredPages}
 
-────────────────────────
-DESIGN SYSTEM (STRICT)
-────────────────────────
-- Font: Inter, system-ui, sans-serif
-- Max width: 1200px centered layout
-- Background: dark modern SaaS style (#050505 or deep gradient)
-- Primary accent: derived from Colors or modern blue/purple
-- Spacing system: 8px / 16px / 24px / 32px / 64px
-- Cards: glassmorphism (blur(12px), semi-transparent backgrounds)
-- Border radius: 16px–24px
-- Buttons: gradient + hover lift (-3px transform)
-- Layout: flex or grid (clean alignment only)
-- Must be fully responsive (mobile-first)
-
-────────────────────────
-HARD REQUIREMENTS
-────────────────────────
-- MUST include all required sections exactly:
-${requiredPages}
-
-- MUST include:
-  • Hero section (strong headline + CTA button)
-  • Features or Services section
-  • About section
-  • CTA section
-  • Footer
-
-- MUST adapt layout to business type:
-  • SaaS → clean product-focused layout
-  • Agency → bold portfolio style
-  • E-commerce → product grid layout
-  • Portfolio → personal branding layout
-  • Nonprofit → trust + storytelling layout
-
-────────────────────────
-CRITICAL OUTPUT RULES (IMPORTANT)
-────────────────────────
-- OUTPUT ONLY RAW HTML
-- NO explanations
-- NO comments
-- NO markdown (no \`\`\`)
-- NO text before or after code
-- FIRST CHARACTER must be "<"
-- LAST CHARACTER must be ">"
-- If you break this rule, output is invalid
-
-────────────────────────
-FINAL TASK
-────────────────────────
-Generate a complete single-page website using:
-- HTML
-- CSS inside <style>
-- minimal JS only if required
+OUTPUT FORMAT (STRICT JSON):
+{
+  "siteName": "",
+  "theme": {
+    "primaryColor": "",
+    "background": "",
+    "style": ""
+  },
+  "layout": "saas | agency | portfolio | ecommerce | nonprofit",
+  "sections": [
+    "hero",
+    "features",
+    "about",
+    "cta",
+    "footer"
+  ],
+  "content": {
+    "heroHeadline": "",
+    "heroSubtext": "",
+    "ctaText": ""
+  }
+}
 `;
 
     try {
@@ -91,39 +64,35 @@ Generate a complete single-page website using:
             },
             body: JSON.stringify({
                 model: "llama-3.3-70b-versatile",
+                temperature: 0.1,
                 messages: [
                     { role: "user", content: prompt }
-                ],
-                temperature: 0.1
+                ]
             })
         });
 
-        if (!response.ok) {
-            const errText = await response.text();
-            return res.status(response.status).json({
-                error: "Groq API error",
-                details: errText
-            });
-        }
-
         const data = await response.json();
 
-        const output = data?.choices?.[0]?.message?.content;
+        let jsonText = data?.choices?.[0]?.message?.content;
 
-        if (!output) {
+        if (!jsonText) {
+            return res.status(500).json({ error: "No output from AI" });
+        }
+
+        // IMPORTANT: parse AI JSON safely
+        let parsed;
+        try {
+            parsed = JSON.parse(jsonText);
+        } catch (e) {
             return res.status(500).json({
-                error: "No AI output returned",
-                raw: data
+                error: "AI returned invalid JSON",
+                raw: jsonText
             });
         }
 
-        return res.status(200).json({
-            result: output
-        });
+        return res.status(200).json(parsed);
 
     } catch (err) {
-        return res.status(500).json({
-            error: err.message
-        });
+        return res.status(500).json({ error: err.message });
     }
 }
