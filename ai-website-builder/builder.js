@@ -1,35 +1,12 @@
-let lastCode = "";
+const res = await fetch("/api/generate", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data)
+});
 
-async function generate() {
+const json = await res.json();
 
-    const payload = {
-        name: document.getElementById("name").value,
-        industry: document.getElementById("industry").value,
-        description: document.getElementById("description").value,
-        tone: document.getElementById("tone").value,
-        color: document.getElementById("color").value
-    };
+console.log("FULL RESPONSE:", json);
 
-    const res = await fetch("/api/generate", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(payload)
-    });
-
-    const data = await res.json();
-
-    lastCode = data.result;
-
-    document.getElementById("frame").srcdoc = lastCode;
-}
-
-function regenerate() {
-    generate();
-}
-
-function copyCode() {
-    navigator.clipboard.writeText(lastCode);
-    alert("Copied!");
-}
+document.getElementById("output").textContent =
+    JSON.stringify(json, null, 2);
