@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>WCS AI Site Builder</title>
+
+<link rel="stylesheet" href="../css/main.css">
+
+<style>
+body {
+    margin: 0;
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+    background: #050505;
+    color: white;
+    font-family: Arial;
+}
+
+/* LEFT PANEL */
+.panel {
+    width: 340px;
+    background: rgba(17,24,39,0.6);
+    border-right: 1px solid rgba(255,255,255,0.08);
+    padding: 1.5rem;
+    overflow-y: auto;
+}
+
+.panel h1 {
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+}
+
+input, textarea, select {
+    width: 100%;
+    padding: 0.8rem;
+    margin-bottom: 0.8rem;
+    border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0.1);
+    background: rgba(0,0,0,0.4);
+    color: white;
+}
+
+button {
+    width: 100%;
+    padding: 0.9rem;
+    margin-top: 0.5rem;
+    border-radius: 999px;
+    border: none;
+    cursor: pointer;
+}
+
+.primary {
+    background: linear-gradient(135deg, #2563eb, #7c3aed);
+    color: white;
+}
+
+.secondary {
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.1);
+    color: white;
+}
+
+/* RIGHT PREVIEW */
+.preview {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.preview-bar {
+    padding: 0.8rem;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    color: #aaa;
+    font-size: 0.9rem;
+}
+
+iframe {
+    flex: 1;
+    border: none;
+    background: white;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="panel">
+
+    <h1>AI Website Builder</h1>
+
+    <input id="name" placeholder="Business Name">
+    <input id="industry" placeholder="Industry">
+
+    <textarea id="description" placeholder="Describe your business"></textarea>
+
+    <select id="tone">
+        <option>Modern</option>
+        <option>Corporate</option>
+        <option>Luxury</option>
+        <option>Minimal</option>
+    </select>
+
+    <input id="color" placeholder="Colors (optional)">
+
+    <button class="primary" onclick="generate()">Generate Site</button>
+    <button class="secondary" onclick="regenerate()">Redo Design</button>
+    <button class="secondary" onclick="copyCode()">Copy Code</button>
+
+</div>
+
+<div class="preview">
+
+    <div class="preview-bar">Live Preview</div>
+
+    <iframe id="frame"></iframe>
+
+</div>
+
+<script src="builder.js"></script>
+
+</body>
+</html>
