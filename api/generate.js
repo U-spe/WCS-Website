@@ -1,134 +1,169 @@
 export default async function handler(req, res) {
     if (req.method !== "POST") {
-        return res.status(405).json({ error: "Method not allowed" });
+        return res.status(405).json({
+            error: "Method not allowed"
+        });
     }
 
-    const {
-        name,
-        description,
-        businessType,
-        colors,
-        visualStyle,
-        seed
-    } = req.body || {};
+    try {
+        const {
+            name = "Business",
+            description = "",
+            businessType = "Business",
+            colors = "auto",
+            visualStyle = "modern",
+            seed = Math.floor(Math.random() * 999999)
+        } = req.body || {};
 
-    const templatePool = [
-        "hero_center_features_grid",
-        "hero_split_right_media",
-        "hero_gradient_overlay",
-        "hero_minimal_text_focus",
-        "hero_dark_glass_saas",
+        const templatePool = [
+            "hero_center_features_grid",
+            "hero_split_right_media",
+            "hero_gradient_overlay",
+            "hero_minimal_text_focus",
+            "hero_dark_glass_saas",
+            "agency_storytelling_layout",
+            "startup_pitch_deck_style",
+            "portfolio_masonry_flow",
+            "ecommerce_showcase_grid",
+            "ecommerce_luxury_focus",
+            "app_dashboard_preview",
+            "app_feature_highlight_stack",
+            "nonprofit_story_driven",
+            "landing_conversion_funnel",
+            "product_waitlist_launch",
+            "modern_saas_sections",
+            "bold_typography_layout",
+            "image_first_visual_flow",
+            "grid_based_modern_ui",
+            "editorial_magazine_style"
+        ];
 
-        "agency_storytelling_layout",
-        "startup_pitch_deck_style",
-        "portfolio_masonry_flow",
-        "ecommerce_showcase_grid",
-        "ecommerce_luxury_focus",
+        const prompt = `
+You are an extrodniary, elite website generation engine.
 
-        "app_dashboard_preview",
-        "app_feature_highlight_stack",
-        "nonprofit_story_driven",
-        "landing_conversion_funnel",
-        "product_waitlist_launch",
-
-        "modern_saas_sections",
-        "bold_typography_layout",
-        "image_first_visual_flow",
-        "grid_based_modern_ui",
-        "editorial_magazine_style"
-    ];
-
-    const prompt = `
-You are a senior UX architect.
-
-CRITICAL:
+IMPORTANT:
 Return ONLY valid JSON.
-No markdown.
-No explanations.
+Do NOT wrap JSON in markdown.
+Do NOT explain anything.
+Do NOT include comments.
 
-Variation Seed: ${seed || Math.floor(Math.random() * 999999)}
+Seed: ${seed}
 
-YOU MUST SELECT ONE TEMPLATE:
-${templatePool.join(", ")}
-
-RULES:
-- MUST vary layout based on seed
-- MUST create unique feature content every time
-- MUST avoid repetition from previous outputs
-- MUST behave like Wix/Framer layout engine
-
-Business:
+Business Information:
 Name: ${name}
 Description: ${description}
 Type: ${businessType}
-Colors: ${colors || "auto"}
+Colors: ${colors}
 Style: ${visualStyle}
 
-OUTPUT FORMAT:
+Select ONE template from:
+${templatePool.join(", ")}
+
+JSON Schema:
 
 {
-  "siteName": "",
-  "template": "",
+  "siteName": "string",
+  "template": "string",
 
   "theme": {
-    "primaryColor": "",
-    "background": ""
+    "primaryColor": "string",
+    "background": "string"
   },
 
   "hero": {
-    "headline": "",
-    "subtext": "",
-    "supportText": "",
-    "buttons": ["Primary Action", "Secondary Action"]
+    "headline": "string",
+    "subtext": "string",
+    "supportText": "string",
+    "buttons": [
+      "string",
+      "string"
+    ]
   },
 
   "features": [
-    { "title": "", "description": "" },
-    { "title": "", "description": "" },
-    { "title": "", "description": "" },
-    { "title": "", "description": "" },
-    { "title": "", "description": "" },
-    { "title": "", "description": "" }
+    {
+      "title": "string",
+      "description": "string"
+    }
   ],
 
-  "sections": ["hero", "features", "about", "cta"]
+  "sections": [
+    "hero",
+    "features",
+    "about",
+    "cta"
+  ]
 }
 `;
 
-    try {
-        const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${process.env.GROQ_API_KEY}`
-            },
-            body: JSON.stringify({
-                model: "llama-3.3-70b-versatile",
-                temperature: 0.75,
-                messages: [{ role: "user", content: prompt }]
-            })
-        });
+        const response = await fetch(
+            "https://api.groq.com/openai/v1/chat/completions",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${process.env.GROQ_API_KEY}`
+                },
+                body: JSON.stringify({
+                    model: "llama-3.3-70b-versatile",
+                    temperature: 0.9,
+                    response_format: {
+                        type: "json_object"
+                    },
+                    messages: [
+                        {
+                            role: "system",
+                            content:
+                                "You are a JSON API. Return valid JSON only."
+                        },
+                        {
+                            role: "user",
+                            content: prompt
+                        }
+                    ]
+                })
+            }
+        );
+
+        if (!response.ok) {
+            const errorText = await response.text();
+
+            return res.status(response.status).json({
+                error: "Groq API Error",
+                details: errorText
+            });
+        }
 
         const data = await response.json();
-        const jsonText = data?.choices?.[0]?.message?.content;
 
-        if (!jsonText) {
-            return res.status(500).json({ error: "No AI output" });
+        const content =
+            data?.choices?.[0]?.message?.content;
+
+        if (!content) {
+            return res.status(500).json({
+                error: "No content returned from AI"
+            });
         }
 
         let parsed;
+
         try {
-            parsed = JSON.parse(jsonText);
-        } catch (e) {
+            parsed = JSON.parse(content);
+        } catch {
             return res.status(500).json({
-                error: "Invalid JSON from AI",
-                raw: jsonText
+                error: "AI returned invalid JSON",
+                raw: content
             });
         }
 
         return res.status(200).json(parsed);
 
     } catch (err) {
-        return res.status(500).json({ error: err.message });
+        console.error(err);
+
+        return res.status(500).json({
+            error: "Internal Server Error",
+            message: err.message
+        });
     }
 }
