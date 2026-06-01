@@ -13,111 +13,82 @@ export default async function handler(req, res) {
             seed
         } = req.body || {};
 
-        const safeSeed =
-            typeof seed === "number"
-                ? seed
-                : Math.floor(Math.random() * 999999);
+        const safeSeed = typeof seed === "number" ? seed : Math.floor(Math.random() * 999999);
 
+        // Aligned with IDs from your templates.js library
         const templatePool = [
-            "hero_center_features_grid",
-            "hero_split_right_media",
-            "hero_gradient_overlay",
-            "hero_minimal_text_focus",
-            "hero_dark_glass_saas",
-            "agency_storytelling_layout",
-            "startup_pitch_deck_style",
-            "portfolio_masonry_flow",
-            "ecommerce_showcase_grid",
-            "ecommerce_luxury_focus",
-            "app_dashboard_preview",
-            "app_feature_highlight_stack",
-            "nonprofit_story_driven",
-            "landing_conversion_funnel",
-            "product_waitlist_launch",
-            "modern_saas_sections",
-            "bold_typography_layout",
-            "image_first_visual_flow",
-            "grid_based_modern_ui",
-            "editorial_magazine_style"
+            "saas_dark", "saas_light", "agency_modern", "agency_luxury", 
+            "tech_product", "ecommerce_modern", "portfolio_creator", 
+            "consulting", "software_company", "marketing_agency"
         ];
 
         const prompt = `
-You are a deterministic website generator.
+You are an elite UX/UI determinist AI for an automated website builder.
 
 CRITICAL RULES:
 Return ONLY valid JSON.
-No markdown.
-No explanations.
-No trailing commas.
+No markdown. No explanations. No trailing commas.
 Must match schema exactly.
 
 IMPORTANT:
-- Always choose a template from the provided list.
-- Always fill ALL fields.
-- Never return null or undefined.
+- Pick ONE template ID exactly from the list provided.
+- Fill ALL fields with professional, high-converting copy.
+- Never return null.
 
 Seed: ${safeSeed}
 
-Business:
+Business Context:
 Name: ${name}
 Description: ${description}
 Type: ${businessType}
-Colors: ${colors}
-Style: ${visualStyle}
+Requested Colors: ${colors}
+Style Vibe: ${visualStyle}
 
-Templates:
+Allowed Templates:
 ${templatePool.join(", ")}
 
-OUTPUT JSON FORMAT:
-
+OUTPUT JSON SCHEMA:
 {
   "siteName": "string",
   "template": "string",
   "theme": {
-    "primaryColor": "string",
-    "background": "string"
+    "primaryColor": "Hex Code",
+    "background": "Hex Code",
+    "textColor": "Hex Code (Ensure contrast with background)"
   },
   "hero": {
-    "headline": "string",
-    "subtext": "string",
-    "supportText": "string",
-    "buttons": ["string", "string"]
+    "headline": "Punchy H1",
+    "subtext": "Persuasive subheadline",
+    "buttons": ["Primary CTA", "Secondary CTA"]
   },
   "features": [
     { "title": "string", "description": "string" },
     { "title": "string", "description": "string" },
-    { "title": "string", "description": "string" },
-    { "title": "string", "description": "string" },
-    { "title": "string", "description": "string" },
     { "title": "string", "description": "string" }
   ],
-  "sections": ["hero", "features", "about", "cta"]
+  "sections": ["hero", "features", "cta"]
 }
 `;
 
-        const response = await fetch(
-            "https://api.groq.com/openai/v1/chat/completions",
-            {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${process.env.GROQ_API_KEY}`
-                },
-                body: JSON.stringify({
-                    model: "llama-3.3-70b-versatile",
-                    temperature: 0.7,
-                    response_format: { type: "json_object" },
-                    messages: [
-                        {
-                            role: "system",
-                            content:
-                                "Return ONLY valid JSON. No text. No markdown."
-                        },
-                        { role: "user", content: prompt }
-                    ]
-                })
-            }
-        );
+        const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${process.env.GROQ_API_KEY}`
+            },
+            body: JSON.stringify({
+                model: "llama-3.3-70b-versatile",
+                temperature: 0.7,
+                response_format: { type: "json_object" },
+                messages: [
+                    {
+                        role: "system",
+                        content: "Return ONLY valid JSON. No text. No markdown."
+                    },
+                    { role: "user", content: prompt }
+                ]
+            })
+        });
 
         if (!response.ok) {
             const errorText = await response.text();
@@ -130,83 +101,42 @@ OUTPUT JSON FORMAT:
         const data = await response.json();
         const content = data?.choices?.[0]?.message?.content;
 
-        if (!content) {
-            return res.status(500).json({
-                error: "No AI output"
-            });
-        }
+        if (!content) return res.status(500).json({ error: "No AI output" });
 
         let parsed;
-
         try {
             parsed = JSON.parse(content);
         } catch (err) {
-            return res.status(500).json({
-                error: "Invalid JSON from AI",
-                raw: content
-            });
+            return res.status(500).json({ error: "Invalid JSON", raw: content });
         }
 
-        /* =========================
-           HARD GUARANTEES (CRASH FIXES)
-        ========================= */
-
-        // template safety
+        // --- HARD GUARANTEES (CRASH FIXES) ---
         if (!templatePool.includes(parsed.template)) {
-            parsed.template =
-                templatePool[safeSeed % templatePool.length];
+            parsed.template = templatePool[safeSeed % templatePool.length];
         }
 
-        // siteName safety
         parsed.siteName = parsed.siteName || name;
-
-        // theme safety
         parsed.theme = parsed.theme || {};
-        parsed.theme.primaryColor =
-            parsed.theme.primaryColor || "#4f46e5";
-        parsed.theme.background =
-            parsed.theme.background || "#0b0f1a";
+        parsed.theme.primaryColor = parsed.theme.primaryColor || "#2563eb";
+        parsed.theme.background = parsed.theme.background || "#0b0f1a";
+        parsed.theme.textColor = parsed.theme.textColor || "#ffffff";
 
-        // hero safety (THIS FIXES YOUR FIRST LOAD CRASH)
         parsed.hero = parsed.hero || {};
-        parsed.hero.headline =
-            parsed.hero.headline || "Welcome";
-        parsed.hero.subtext =
-            parsed.hero.subtext || "";
-        parsed.hero.supportText =
-            parsed.hero.supportText || "";
-        parsed.hero.buttons =
-            Array.isArray(parsed.hero.buttons)
-                ? parsed.hero.buttons
-                : ["Get Started", "Learn More"];
+        parsed.hero.headline = parsed.hero.headline || "Welcome";
+        parsed.hero.subtext = parsed.hero.subtext || "Let's build something great.";
+        parsed.hero.buttons = Array.isArray(parsed.hero.buttons) ? parsed.hero.buttons : ["Get Started"];
 
-        // features safety (CRITICAL FOR BUILD FAILS)
-        if (!Array.isArray(parsed.features)) {
-            parsed.features = [];
+        if (!Array.isArray(parsed.features)) parsed.features = [];
+        
+        while (parsed.features.length < 3) {
+            parsed.features.push({ title: "Feature", description: "Coming soon." });
         }
-
-        // always force 6 features so UI never breaks
-        while (parsed.features.length < 6) {
-            parsed.features.push({
-                title: "Feature",
-                description: "Description coming soon"
-            });
-        }
-
         parsed.features = parsed.features.slice(0, 6);
 
-        // sections safety
-        parsed.sections = Array.isArray(parsed.sections)
-            ? parsed.sections
-            : ["hero", "features", "about", "cta"];
-
         return res.status(200).json(parsed);
+
     } catch (err) {
         console.error(err);
-
-        return res.status(500).json({
-            error: "Internal Server Error",
-            message: err.message
-        });
+        return res.status(500).json({ error: "Internal Server Error", message: err.message });
     }
 }
