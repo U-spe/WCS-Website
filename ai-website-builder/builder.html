@@ -1,12 +1,9 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>WCS AI Website Builder</title>
-
-<link rel="stylesheet" href="../css/main.css">
 
 <style>
 :root{
@@ -99,17 +96,12 @@ select{
     width:100%;
     border:none;
     outline:none;
-
     background:rgba(255,255,255,.03);
     border:1px solid var(--border);
-
     color:white;
-
     border-radius:14px;
-
     padding:14px 16px;
     margin-bottom:12px;
-
     transition:.2s ease;
 }
 
@@ -147,18 +139,13 @@ button{
 }
 
 .primary{
-    background:
-        linear-gradient(
-            135deg,
-            var(--blue),
-            var(--purple)
-        );
-
+    background: linear-gradient(135deg, var(--blue), var(--purple));
     color:white;
 }
 
 .primary:hover{
     transform:translateY(-2px);
+    box-shadow: 0 4px 12px rgba(37,99,235,.3);
 }
 
 .secondary{
@@ -186,11 +173,8 @@ button{
     display:flex;
     align-items:center;
     justify-content:space-between;
-
     padding:0 18px;
-
     border-bottom:1px solid var(--border);
-
     background:rgba(255,255,255,.02);
 }
 
@@ -202,6 +186,7 @@ button{
 .preview-status{
     color:var(--muted);
     font-size:.85rem;
+    transition: color 0.3s ease;
 }
 
 iframe{
@@ -215,118 +200,61 @@ iframe{
 ========================= */
 
 @media (max-width:950px){
-
     body{
         flex-direction:column;
     }
-
     .panel{
         width:100%;
         max-height:50vh;
         border-right:none;
         border-bottom:1px solid var(--border);
     }
-
 }
 </style>
-
 </head>
-
 <body>
 
 <div class="panel">
+    <div class="brand">
+        <div class="badge">WCS AI Studio</div>
+        <h1>AI Website Builder</h1>
+        <p>Generate complete business websites with AI powered layouts, content, structure, branding, and design concepts.</p>
+    </div>
 
+    <div class="section-title">Business Information</div>
+    <input id="name" placeholder="Website Name">
+    <textarea id="description" placeholder="Describe the business, organization, or project"></textarea>
+    <input id="industry" placeholder="Business Type">
 
-<div class="brand">
-    <div class="badge">WCS AI Studio</div>
-
-    <h1>AI Website Builder</h1>
-
-    <p>
-        Generate complete business websites with AI powered layouts,
-        content, structure, branding, and design concepts.
-    </p>
-</div>
-
-<div class="section-title">Business Information</div>
-
-<input
-    id="name"
-    placeholder="Website Name">
-
-<textarea
-    id="description"
-    placeholder="Describe the business, organization, or project"></textarea>
-
-<input
-    id="industry"
-    placeholder="Business Type">
-
-<div class="section-title">Design Preferences</div>
-
-<input
-    id="color"
-    placeholder="Preferred Colors">
-
-<select id="tone">
-    <option value="modern">Modern</option>
-    <option value="corporate">Corporate</option>
-    <option value="luxury">Luxury</option>
-    <option value="minimal">Minimal</option>
-    <option value="creative">Creative</option>
-    <option value="technology">Technology</option>
-</select>
-
-<input
-    id="tagline"
-    placeholder="Tagline (optional)">
-
-<input
-    id="audience"
-    placeholder="Target Audience">
-
-<input
-    id="pages"
-    placeholder="Required Pages (Home, About, Services...)">
-
-<div class="actions">
-
-    <button
-        class="primary"
-        onclick="generateSite()">
-        Generate Website
-    </button>
-
-    <button
-        class="secondary"
-        onclick="regenerate()">
-        Redo Design
-    </button>
-
-    <button
-        class="secondary"
-        onclick="copyCode()">
-        Copy Code
-    </button>
-
-</div>
-
-
+    <div class="section-title">Design Preferences</div>
+    <input id="color" placeholder="Preferred Colors (e.g. Blue and Gold)">
+    <select id="tone">
+        <option value="modern">Modern</option>
+        <option value="corporate">Corporate</option>
+        <option value="luxury">Luxury</option>
+        <option value="minimal">Minimal</option>
+        <option value="creative">Creative</option>
+        <option value="technology">Technology</option>
+    </select>
+    <input id="tagline" placeholder="Tagline (optional)">
+    <input id="audience" placeholder="Target Audience">
+    
+    <div class="actions">
+        <button class="primary" onclick="generateSite()">Generate Website</button>
+        <button class="secondary" onclick="regenerate()">Redo Design</button>
+        <button class="secondary" onclick="copyCode()">Copy Code</button>
+    </div>
 </div>
 
 <div class="preview">
-
-
-<div class="preview-top">
-    <h2>Live Website Preview</h2>
-    <div class="preview-status">Ready</div>
+    <div class="preview-top">
+        <h2>Live Website Preview</h2>
+        <div id="status-text" class="preview-status">Ready</div>
+    </div>
+    <iframe id="frame"></iframe>
 </div>
 
-<iframe id="frame"></iframe>
-
-
-</div>
-
+<script src="/ai-website-builder/templates.js"></script>
 <script src="/ai-website-builder/builder.js"></script>
 
 </body>
