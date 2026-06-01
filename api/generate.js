@@ -10,8 +10,13 @@ export default async function handler(req, res) {
             businessType = "Business",
             colors = "auto",
             visualStyle = "modern",
-            seed = Math.floor(Math.random() * 999999)
+            seed
         } = req.body || {};
+
+        const safeSeed =
+            typeof seed === "number"
+                ? seed
+                : Math.floor(Math.random() * 999999);
 
         const templatePool = [
             "hero_center_features_grid",
@@ -37,16 +42,21 @@ export default async function handler(req, res) {
         ];
 
         const prompt = `
-You are a world-class website generation engine.
+You are a deterministic website generator.
 
 CRITICAL RULES:
-- Return ONLY valid JSON
-- No markdown
-- No explanations
-- No extra text
-- Must strictly follow schema
+Return ONLY valid JSON.
+No markdown.
+No explanations.
+No trailing commas.
+Must match schema exactly.
 
-Seed: ${seed}
+IMPORTANT:
+- Always choose a template from the provided list.
+- Always fill ALL fields.
+- Never return null or undefined.
+
+Seed: ${safeSeed}
 
 Business:
 Name: ${name}
@@ -55,10 +65,11 @@ Type: ${businessType}
 Colors: ${colors}
 Style: ${visualStyle}
 
-YOU MUST SELECT EXACTLY ONE TEMPLATE FROM THIS LIST:
+Templates:
 ${templatePool.join(", ")}
 
-OUTPUT SCHEMA:
+OUTPUT JSON FORMAT:
+
 {
   "siteName": "string",
   "template": "string",
@@ -73,6 +84,11 @@ OUTPUT SCHEMA:
     "buttons": ["string", "string"]
   },
   "features": [
+    { "title": "string", "description": "string" },
+    { "title": "string", "description": "string" },
+    { "title": "string", "description": "string" },
+    { "title": "string", "description": "string" },
+    { "title": "string", "description": "string" },
     { "title": "string", "description": "string" }
   ],
   "sections": ["hero", "features", "about", "cta"]
@@ -89,12 +105,13 @@ OUTPUT SCHEMA:
                 },
                 body: JSON.stringify({
                     model: "llama-3.3-70b-versatile",
-                    temperature: 0.8,
+                    temperature: 0.7,
                     response_format: { type: "json_object" },
                     messages: [
                         {
                             role: "system",
-                            content: "You are a strict JSON generator. Output valid JSON only."
+                            content:
+                                "Return ONLY valid JSON. No text. No markdown."
                         },
                         { role: "user", content: prompt }
                     ]
@@ -114,7 +131,9 @@ OUTPUT SCHEMA:
         const content = data?.choices?.[0]?.message?.content;
 
         if (!content) {
-            return res.status(500).json({ error: "No AI output" });
+            return res.status(500).json({
+                error: "No AI output"
+            });
         }
 
         let parsed;
@@ -129,44 +148,59 @@ OUTPUT SCHEMA:
         }
 
         /* =========================
-           🔥 CRITICAL FIX: TEMPLATE VALIDATION
+           HARD GUARANTEES (CRASH FIXES)
         ========================= */
 
+        // template safety
         if (!templatePool.includes(parsed.template)) {
             parsed.template =
-                templatePool[
-                    Math.floor(Math.random() * templatePool.length)
-                ];
+                templatePool[safeSeed % templatePool.length];
         }
 
-        /* =========================
-           SAFETY FALLBACKS
-        ========================= */
-
+        // siteName safety
         parsed.siteName = parsed.siteName || name;
 
-        parsed.hero = parsed.hero || {
-            headline: "Welcome",
-            subtext: "",
-            supportText: "",
-            buttons: ["Get Started", "Learn More"]
-        };
+        // theme safety
+        parsed.theme = parsed.theme || {};
+        parsed.theme.primaryColor =
+            parsed.theme.primaryColor || "#4f46e5";
+        parsed.theme.background =
+            parsed.theme.background || "#0b0f1a";
 
-        parsed.features = Array.isArray(parsed.features)
-            ? parsed.features
-            : [];
+        // hero safety (THIS FIXES YOUR FIRST LOAD CRASH)
+        parsed.hero = parsed.hero || {};
+        parsed.hero.headline =
+            parsed.hero.headline || "Welcome";
+        parsed.hero.subtext =
+            parsed.hero.subtext || "";
+        parsed.hero.supportText =
+            parsed.hero.supportText || "";
+        parsed.hero.buttons =
+            Array.isArray(parsed.hero.buttons)
+                ? parsed.hero.buttons
+                : ["Get Started", "Learn More"];
 
+        // features safety (CRITICAL FOR BUILD FAILS)
+        if (!Array.isArray(parsed.features)) {
+            parsed.features = [];
+        }
+
+        // always force 6 features so UI never breaks
+        while (parsed.features.length < 6) {
+            parsed.features.push({
+                title: "Feature",
+                description: "Description coming soon"
+            });
+        }
+
+        parsed.features = parsed.features.slice(0, 6);
+
+        // sections safety
         parsed.sections = Array.isArray(parsed.sections)
             ? parsed.sections
             : ["hero", "features", "about", "cta"];
 
-        parsed.theme = parsed.theme || {
-            primaryColor: "#4f46e5",
-            background: "#0b0f1a"
-        };
-
         return res.status(200).json(parsed);
-
     } catch (err) {
         console.error(err);
 
