@@ -1,8 +1,6 @@
 export default async function handler(req, res) {
     if (req.method !== "POST") {
-        return res.status(405).json({
-            error: "Method not allowed"
-        });
+        return res.status(405).json({ error: "Method not allowed" });
     }
 
     try {
@@ -39,60 +37,45 @@ export default async function handler(req, res) {
         ];
 
         const prompt = `
-You are an extrodniary, elite website generation engine.
+You are a world-class website generation engine.
 
-IMPORTANT:
-Return ONLY valid JSON.
-Do NOT wrap JSON in markdown.
-Do NOT explain anything.
-Do NOT include comments.
+CRITICAL RULES:
+- Return ONLY valid JSON
+- No markdown
+- No explanations
+- No extra text
+- Must strictly follow schema
 
 Seed: ${seed}
 
-Business Information:
+Business:
 Name: ${name}
 Description: ${description}
 Type: ${businessType}
 Colors: ${colors}
 Style: ${visualStyle}
 
-Select ONE template from:
+YOU MUST SELECT EXACTLY ONE TEMPLATE FROM THIS LIST:
 ${templatePool.join(", ")}
 
-JSON Schema:
-
+OUTPUT SCHEMA:
 {
   "siteName": "string",
   "template": "string",
-
   "theme": {
     "primaryColor": "string",
     "background": "string"
   },
-
   "hero": {
     "headline": "string",
     "subtext": "string",
     "supportText": "string",
-    "buttons": [
-      "string",
-      "string"
-    ]
+    "buttons": ["string", "string"]
   },
-
   "features": [
-    {
-      "title": "string",
-      "description": "string"
-    }
+    { "title": "string", "description": "string" }
   ],
-
-  "sections": [
-    "hero",
-    "features",
-    "about",
-    "cta"
-  ]
+  "sections": ["hero", "features", "about", "cta"]
 }
 `;
 
@@ -106,20 +89,14 @@ JSON Schema:
                 },
                 body: JSON.stringify({
                     model: "llama-3.3-70b-versatile",
-                    temperature: 0.9,
-                    response_format: {
-                        type: "json_object"
-                    },
+                    temperature: 0.8,
+                    response_format: { type: "json_object" },
                     messages: [
                         {
                             role: "system",
-                            content:
-                                "You are a JSON API. Return valid JSON only."
+                            content: "You are a strict JSON generator. Output valid JSON only."
                         },
-                        {
-                            role: "user",
-                            content: prompt
-                        }
+                        { role: "user", content: prompt }
                     ]
                 })
             }
@@ -127,7 +104,6 @@ JSON Schema:
 
         if (!response.ok) {
             const errorText = await response.text();
-
             return res.status(response.status).json({
                 error: "Groq API Error",
                 details: errorText
@@ -135,26 +111,59 @@ JSON Schema:
         }
 
         const data = await response.json();
-
-        const content =
-            data?.choices?.[0]?.message?.content;
+        const content = data?.choices?.[0]?.message?.content;
 
         if (!content) {
-            return res.status(500).json({
-                error: "No content returned from AI"
-            });
+            return res.status(500).json({ error: "No AI output" });
         }
 
         let parsed;
 
         try {
             parsed = JSON.parse(content);
-        } catch {
+        } catch (err) {
             return res.status(500).json({
-                error: "AI returned invalid JSON",
+                error: "Invalid JSON from AI",
                 raw: content
             });
         }
+
+        /* =========================
+           🔥 CRITICAL FIX: TEMPLATE VALIDATION
+        ========================= */
+
+        if (!templatePool.includes(parsed.template)) {
+            parsed.template =
+                templatePool[
+                    Math.floor(Math.random() * templatePool.length)
+                ];
+        }
+
+        /* =========================
+           SAFETY FALLBACKS
+        ========================= */
+
+        parsed.siteName = parsed.siteName || name;
+
+        parsed.hero = parsed.hero || {
+            headline: "Welcome",
+            subtext: "",
+            supportText: "",
+            buttons: ["Get Started", "Learn More"]
+        };
+
+        parsed.features = Array.isArray(parsed.features)
+            ? parsed.features
+            : [];
+
+        parsed.sections = Array.isArray(parsed.sections)
+            ? parsed.sections
+            : ["hero", "features", "about", "cta"];
+
+        parsed.theme = parsed.theme || {
+            primaryColor: "#4f46e5",
+            background: "#0b0f1a"
+        };
 
         return res.status(200).json(parsed);
 
