@@ -7,7 +7,6 @@ let regenSeed = null;
 ========================= */
 
 async function generateSite(forceNew = false) {
-
     if (forceNew || !regenSeed) {
         regenSeed = Math.floor(Math.random() * 999999);
     }
@@ -48,7 +47,7 @@ async function generateSite(forceNew = false) {
 }
 
 /* =========================
-   REGENERATE (FORCES NEW LAYOUT)
+   REGENERATE
 ========================= */
 
 function regenerate() {
@@ -66,20 +65,22 @@ function copyCode() {
 }
 
 /* =========================
-   V4 TEMPLATE ENGINE
+   TEMPLATE ENGINE V5
 ========================= */
 
 function buildWebsite(data) {
     const theme = data.theme || {};
     const hero = data.hero || {};
     const features = data.features || [];
+    const template = data.template || "default";
+    const sections = data.sections || ["hero", "features", "about", "cta"];
 
     return `
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>${data.siteName || "AI Site"}</title>
+<title>${escapeHtml(data.siteName || "AI Site")}</title>
 
 <style>
 body {
@@ -96,25 +97,37 @@ body {
     padding: 80px 20px;
 }
 
-/* HERO VARIANTS (V4 CORE) */
+/* HERO BASE */
 .hero {
     padding: 140px 20px;
     text-align: center;
 }
 
+.hero.split {
+    display: flex;
+    text-align: left;
+    justify-content: space-between;
+    align-items: center;
+    gap: 40px;
+}
+
+.hero.minimal {
+    padding: 100px 20px;
+    text-align: left;
+}
+
 .hero h1 {
-    font-size: 3.5rem;
+    font-size: 3rem;
 }
 
 .hero p {
     opacity: 0.8;
     max-width: 700px;
-    margin: auto;
 }
 
+/* BUTTONS */
 .hero-buttons {
     display: flex;
-    justify-content: center;
     gap: 12px;
     margin-top: 20px;
 }
@@ -123,9 +136,10 @@ body {
     padding: 12px 18px;
     border-radius: 999px;
     background: ${theme.primaryColor || "#4f46e5"};
+    display: inline-block;
 }
 
-/* FEATURES (NOW FULLY DYNAMIC) */
+/* FEATURES */
 .features {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -138,10 +152,6 @@ body {
     border-radius: 16px;
     background: rgba(255,255,255,0.05);
     border: 1px solid rgba(255,255,255,0.08);
-}
-
-.card h3 {
-    margin-bottom: 8px;
 }
 
 /* ABOUT */
@@ -164,39 +174,94 @@ body {
 
 <body>
 
-<section class="hero">
-    <h1>${hero.headline}</h1>
-    <p>${hero.subtext}</p>
-
-    <div class="hero-buttons">
-        ${(hero.buttons || []).map(b => `<div class="btn">${b}</div>`).join("")}
-    </div>
-
-    <p style="opacity:0.6;margin-top:20px;">
-        ${hero.supportText || ""}
-    </p>
-</section>
-
-<section class="features">
-    ${features.map(f => `
-        <div class="card">
-            <h3>${f.title}</h3>
-            <p>${f.description}</p>
-        </div>
-    `).join("")}
-</section>
-
-<section class="about">
-    <h2>About</h2>
-    <p>${data.description || ""}</p>
-</section>
-
-<section class="cta">
-    <h2>Ready to build something powerful?</h2>
-    <div class="btn">Get Started</div>
-</section>
+${renderSection("hero", data, hero, features, template)}
+${renderSection("features", data, hero, features, template)}
+${renderSection("about", data, hero, features, template)}
+${renderSection("cta", data, hero, features, template)}
 
 </body>
 </html>
 `;
+}
+
+/* =========================
+   SECTION RENDERER
+========================= */
+
+function renderSection(type, data, hero, features, template) {
+    const desc = escapeHtml(data.description || "");
+
+    if (type === "hero") {
+        const buttons = (hero.buttons || [])
+            .map(b => `<div class="btn">${escapeHtml(b)}</div>`)
+            .join("");
+
+        const layoutClass =
+            template.includes("split") ? "split" :
+            template.includes("minimal") ? "minimal" :
+            "";
+
+        return `
+<section class="hero ${layoutClass}">
+    <div>
+        <h1>${escapeHtml(hero.headline || "")}</h1>
+        <p>${escapeHtml(hero.subtext || "")}</p>
+
+        <div class="hero-buttons">
+            ${buttons}
+        </div>
+
+        <p style="opacity:0.6;margin-top:20px;">
+            ${escapeHtml(hero.supportText || "")}
+        </p>
+    </div>
+</section>
+`;
+    }
+
+    if (type === "features") {
+        return `
+<section class="features">
+    ${features.map(f => `
+        <div class="card">
+            <h3>${escapeHtml(f.title || "")}</h3>
+            <p>${escapeHtml(f.description || "")}</p>
+        </div>
+    `).join("")}
+</section>
+`;
+    }
+
+    if (type === "about") {
+        return `
+<section class="about">
+    <h2>About</h2>
+    <p>${desc}</p>
+</section>
+`;
+    }
+
+    if (type === "cta") {
+        return `
+<section class="cta">
+    <h2>Ready to build something powerful?</h2>
+    <div class="btn">Get Started</div>
+</section>
+`;
+    }
+
+    return "";
+}
+
+/* =========================
+   SECURITY HELPER (IMPORTANT)
+========================= */
+
+function escapeHtml(str) {
+    return String(str)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
 }
