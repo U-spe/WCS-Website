@@ -1,26 +1,32 @@
 let lastGeneratedJSON = null;
 let lastHTML = "";
 let regenSeed = null;
+let isGenerating = false;
 
 /* =========================
    GENERATE SITE
 ========================= */
 
 async function generateSite(forceNew = false) {
-    if (forceNew || !regenSeed) {
-        regenSeed = Math.floor(Math.random() * 999999);
-    }
-
-    const data = {
-        name: document.getElementById("name").value,
-        description: document.getElementById("description").value,
-        businessType: document.getElementById("industry")?.value || "",
-        colors: document.getElementById("color").value,
-        visualStyle: document.getElementById("tone").value,
-        seed: regenSeed
-    };
+    if (isGenerating) return;
+    isGenerating = true;
 
     try {
+        if (forceNew || !regenSeed) {
+            regenSeed = Math.floor(Math.random() * 999999);
+        }
+
+        const getVal = (id) => document.getElementById(id)?.value || "";
+
+        const data = {
+            name: getVal("name") || "My Business",
+            description: getVal("description") || "A modern business",
+            businessType: getVal("industry") || "Business",
+            colors: getVal("color") || "auto",
+            visualStyle: getVal("tone") || "modern",
+            seed: regenSeed
+        };
+
         const res = await fetch("/api/generate", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -29,21 +35,28 @@ async function generateSite(forceNew = false) {
 
         const json = await res.json();
 
-        if (!json || json.error) {
-            console.log(json);
+        if (!res.ok || !json || json.error) {
+            console.error("Generate error:", json);
             alert("AI Error — check console");
+            isGenerating = false;
             return;
         }
 
-        lastGeneratedJSON = json;
-        lastHTML = buildWebsite(json);
+        // Safety normalization (VERY IMPORTANT for first load crash fix)
+        const safeJSON = normalizeJSON(json);
 
-        document.getElementById("frame").srcdoc = lastHTML;
+        lastGeneratedJSON = safeJSON;
+        lastHTML = buildWebsite(safeJSON);
+
+        const frame = document.getElementById("frame");
+        if (frame) frame.srcdoc = lastHTML;
 
     } catch (err) {
-        console.error(err);
+        console.error("Request failed:", err);
         alert("Request failed");
     }
+
+    isGenerating = false;
 }
 
 /* =========================
@@ -65,39 +78,65 @@ function copyCode() {
 }
 
 /* =========================
-   TEMPLATE ENGINE V5
+   SAFE NORMALIZER (CRITICAL FIX)
+========================= */
+
+function normalizeJSON(json) {
+    return {
+        siteName: json.siteName || "AI Site",
+        template: json.template || "hero_center_features_grid",
+
+        theme: {
+            primaryColor: json.theme?.primaryColor || "#4f46e5",
+            background: json.theme?.background || "#0b0f1a"
+        },
+
+        hero: {
+            headline: json.hero?.headline || "Welcome",
+            subtext: json.hero?.subtext || "",
+            supportText: json.hero?.supportText || "",
+            buttons: Array.isArray(json.hero?.buttons)
+                ? json.hero.buttons
+                : ["Get Started", "Learn More"]
+        },
+
+        features: Array.isArray(json.features)
+            ? json.features
+            : [],
+
+        sections: Array.isArray(json.sections)
+            ? json.sections
+            : ["hero", "features", "about", "cta"],
+
+        description: json.description || ""
+    };
+}
+
+/* =========================
+   TEMPLATE ENGINE V6
 ========================= */
 
 function buildWebsite(data) {
     const theme = data.theme || {};
     const hero = data.hero || {};
     const features = data.features || [];
-    const template = data.template || "default";
-    const sections = data.sections || ["hero", "features", "about", "cta"];
+    const template = data.template || "";
 
     return `
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>${escapeHtml(data.siteName || "AI Site")}</title>
+<title>${escapeHtml(data.siteName)}</title>
 
 <style>
 body {
     margin: 0;
     font-family: Inter, system-ui;
-    background: ${theme.background || "#0b0f1a"};
+    background: ${theme.background};
     color: white;
 }
 
-/* GLOBAL */
-.container {
-    max-width: 1100px;
-    margin: auto;
-    padding: 80px 20px;
-}
-
-/* HERO BASE */
 .hero {
     padding: 140px 20px;
     text-align: center;
@@ -105,15 +144,15 @@ body {
 
 .hero.split {
     display: flex;
-    text-align: left;
     justify-content: space-between;
     align-items: center;
+    text-align: left;
     gap: 40px;
 }
 
 .hero.minimal {
-    padding: 100px 20px;
     text-align: left;
+    padding: 100px 20px;
 }
 
 .hero h1 {
@@ -125,7 +164,6 @@ body {
     max-width: 700px;
 }
 
-/* BUTTONS */
 .hero-buttons {
     display: flex;
     gap: 12px;
@@ -135,11 +173,10 @@ body {
 .btn {
     padding: 12px 18px;
     border-radius: 999px;
-    background: ${theme.primaryColor || "#4f46e5"};
+    background: ${theme.primaryColor};
     display: inline-block;
 }
 
-/* FEATURES */
 .features {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -154,7 +191,6 @@ body {
     border: 1px solid rgba(255,255,255,0.08);
 }
 
-/* ABOUT */
 .about {
     padding: 100px 20px;
     max-width: 900px;
@@ -162,7 +198,6 @@ body {
     text-align: center;
 }
 
-/* CTA */
 .cta {
     text-align: center;
     padding: 100px 20px;
@@ -174,10 +209,10 @@ body {
 
 <body>
 
-${renderSection("hero", data, hero, features, template)}
-${renderSection("features", data, hero, features, template)}
-${renderSection("about", data, hero, features, template)}
-${renderSection("cta", data, hero, features, template)}
+${renderSection("hero", data)}
+${renderSection("features", data)}
+${renderSection("about", data)}
+${renderSection("cta", data)}
 
 </body>
 </html>
@@ -185,34 +220,34 @@ ${renderSection("cta", data, hero, features, template)}
 }
 
 /* =========================
-   SECTION RENDERER
+   SECTION RENDERER (FIXED)
 ========================= */
 
-function renderSection(type, data, hero, features, template) {
+function renderSection(type, data) {
+    const hero = data.hero || {};
+    const features = data.features || [];
     const desc = escapeHtml(data.description || "");
 
     if (type === "hero") {
-        const buttons = (hero.buttons || [])
-            .map(b => `<div class="btn">${escapeHtml(b)}</div>`)
-            .join("");
-
-        const layoutClass =
-            template.includes("split") ? "split" :
-            template.includes("minimal") ? "minimal" :
+        const layout =
+            data.template.includes("split") ? "split" :
+            data.template.includes("minimal") ? "minimal" :
             "";
 
         return `
-<section class="hero ${layoutClass}">
+<section class="hero ${layout}">
     <div>
-        <h1>${escapeHtml(hero.headline || "")}</h1>
-        <p>${escapeHtml(hero.subtext || "")}</p>
+        <h1>${escapeHtml(hero.headline)}</h1>
+        <p>${escapeHtml(hero.subtext)}</p>
 
         <div class="hero-buttons">
-            ${buttons}
+            ${(hero.buttons || [])
+                .map(b => `<div class="btn">${escapeHtml(b)}</div>`)
+                .join("")}
         </div>
 
         <p style="opacity:0.6;margin-top:20px;">
-            ${escapeHtml(hero.supportText || "")}
+            ${escapeHtml(hero.supportText)}
         </p>
     </div>
 </section>
@@ -245,7 +280,7 @@ function renderSection(type, data, hero, features, template) {
         return `
 <section class="cta">
     <h2>Ready to build something powerful?</h2>
-    <div class="btn">Get Started</div>
+    <div class="btn">Get Started!</div>
 </section>
 `;
     }
@@ -254,11 +289,11 @@ function renderSection(type, data, hero, features, template) {
 }
 
 /* =========================
-   SECURITY HELPER (IMPORTANT)
+   SECURITY
 ========================= */
 
 function escapeHtml(str) {
-    return String(str)
+    return String(str || "")
         .replaceAll("&", "&amp;")
         .replaceAll("<", "&lt;")
         .replaceAll(">", "&gt;")
