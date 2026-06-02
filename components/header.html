@@ -1,0 +1,57 @@
+<style>
+    /* --- NAVBAR LAYOUT ADJUSTMENTS --- */
+    .navbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between; /* Pushes logo to left, menu to center, and buttons to right */
+    }
+
+    /* Container to hold both buttons neatly on the right */
+    .nav-actions {
+        display: flex;
+        align-items: center;
+        gap: 12px; /* Spaces the two buttons apart */
+    }
+
+    /* Style for the new prominent CTA button */
+    .nav-btn-primary {
+        background-color: #007bc0; /* Primary brand accent color */
+        color: #ffffff;
+        padding: 8px 16px;
+        border-radius: 6px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: background 0.2s ease;
+        white-space: nowrap; /* Prevents text from wrapping to two lines */
+    }
+
+    .nav-btn-primary:hover {
+        background-color: #005a9c; /* Slightly darker shade on hover */
+    }
+</style>
+
+<header>
+    <nav class="navbar">
+        <a href="/" class="logo">WCS</a>
+
+        <ul class="nav-links">
+            <li><a href="/">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="team.html">Our Team</a></li>
+            <li><a href="services.html">Services</a></li>
+            <li><a href="pricing.html">Pricing</a></li>
+            <li><a href="portfolio.html">Portfolio</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+
+        <div class="nav-actions">
+            <a href="contact.html" class="nav-btn">
+                Get Started
+            </a>
+            
+            <a href="/ai-website-builder/builder.html" class="nav-btn-primary">
+                Build Your Site
+            </a>
+        </div>
+    </nav>
+</header>
