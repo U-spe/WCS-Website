@@ -11,48 +11,54 @@
     <link rel="stylesheet" href="css/about.css">
 
     <style>
-        /* Refined Feature Block Styles */
+        /* Improved Styles for Image/Text blocks */
         .wcs-feature-block {
             display: flex;
             align-items: center;
             gap: 4rem;
             margin: 6rem 0;
+            padding: 2rem;
             flex-wrap: wrap;
         }
         .wcs-feature-block.reverse { flex-direction: row-reverse; }
         
-        .wcs-text { flex: 1; min-width: 350px; }
-        .wcs-text h2 { 
-            font-size: 2.2rem; 
-            margin-bottom: 1.5rem; 
-            position: relative; 
-            padding-bottom: 10px;
-        }
-        .wcs-text h2::after {
-            content: '';
-            position: absolute;
-            left: 0; bottom: 0;
-            width: 50px; height: 3px;
-            background: var(--primary-color); /* Assumes CSS variable exists */
-        }
-        .wcs-text p { font-size: 1.1rem; line-height: 1.8; margin-bottom: 1rem; color: #555; }
+        .wcs-text, .wcs-image-box { flex: 1; min-width: 350px; }
         
-        .wcs-image-box { flex: 1; min-width: 300px; }
-        .wcs-image-box img {
-            width: 100%;
-            height: 450px;
-            object-fit: cover;
-            border-radius: 16px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        /* Fixed Headers & Spacing */
+        .wcs-text h2 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            color: var(--accent-color, #007bc0);
+            display: inline-block;
+            border-bottom: 3px solid var(--accent-color, #007bc0);
+            padding-bottom: 0.5rem;
         }
 
-        /* New Full-Width Approach Section */
-        .approach-section { padding: 4rem 0; background: rgba(0,0,0,0.02); margin: 4rem 0; }
-        .approach-content { max-width: 900px; margin: 0 auto; text-align: center; }
+        .wcs-text p {
+            line-height: 1.8;
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+        }
         
+        .wcs-image-box img {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        /* New Philosophy Section */
+        .wcs-philosophy {
+            background: rgba(255,255,255,0.02);
+            border-radius: 20px;
+            padding: 3rem;
+            margin: 4rem 0;
+        }
+
         @media (max-width: 768px) {
             .wcs-feature-block { gap: 2rem; text-align: center; }
-            .wcs-text h2::after { left: 50%; transform: translateX(-50%); }
+            .wcs-text h2 { margin-bottom: 1.5rem; }
         }
     </style>
 </head>
@@ -66,50 +72,67 @@
 
     <main>
 
+        <!-- ABOUT HEADER -->
         <section class="about-header">
             <span class="page-tag">ABOUT WEB CREATION STUDIOS</span>
             <h1>The Studio Behind <span>Modern Digital Experiences</span></h1>
-            <p>Web Creation Studios was built around one idea: every organization deserves a website that looks professional, performs exceptionally, and represents its mission with excellence.</p>
+            <p>
+                Web Creation Studios was built around one idea: every organization deserves a website 
+                that looks professional, performs exceptionally, and represents its mission with excellence.
+            </p>
         </section>
 
+        <!-- FEATURE BLOCK 1 -->
         <section class="wcs-feature-block">
             <div class="wcs-text">
                 <h2>Built for Your Vision</h2>
-                <p>At Web Creation Studios, we believe that your website is the digital face of your organization. It is often the first interaction a potential partner or client has with your brand, and it should reflect your values immediately.</p>
-                <p>We don't just build pages; we architect experiences that resonate with your target audience. Whether you are a local ministry, a non-profit, or a growing startup, we ensure your message is clear, compelling, and beautifully presented on every device.</p>
+                <p>At Web Creation Studios, we believe that your website is the digital face of your organization. In an increasingly digital world, simply having a page isn't enough; you need a strategic asset that communicates your unique value proposition immediately upon arrival.</p>
+                <p>We don't just build pages; we architect immersive experiences that resonate with your specific audience. Whether you are a local ministry, a non-profit, or a growing startup, we ensure your message is not only clear and compelling but also presented with the technical precision required for modern performance.</p>
             </div>
             <div class="wcs-image-box">
-                <img src="images/home/about-placeholder-1.jpg" alt="Strategic Web Design">
+                <img src="images/home/about-placeholder-1.jpg" alt="Web Creation Studios process">
             </div>
         </section>
 
+        <!-- NEW ABOUT INTRO BOX -->
+        <section class="about-intro">
+            <div class="about-intro-card">
+                <h2>Our Commitment</h2>
+                <p>We take a straightforward approach focused on collaboration and simplicity. Our process with you starts right from understanding you and your goals, so we are able to create a nice-looking yet functional website for you. We work closely with you so that the final design is exactly as you envision.</p>
+            </div>
+        </section>
+
+        <!-- FEATURE BLOCK 2 -->
         <section class="wcs-feature-block reverse">
             <div class="wcs-text">
                 <h2>Why Choose WCS?</h2>
-                <p>We provide more than just code. We provide a long-term partnership. Many agencies deliver a site and disappear; we stay invested in your success. By combining modern UI/UX principles with high-performance development, we ensure your site is fast, secure, and ready to scale.</p>
-                <p>You focus on your mission and your daily operations; we’ll handle the digital heavy lifting, technical optimization, and design updates required to keep you ahead of the curve.</p>
+                <p>We provide more than just code. We provide a long-term digital partnership. By combining modern UI/UX aesthetics with high-performance development, we ensure your site is fast, secure, and ready to scale alongside your organization. We believe that your website should be a tool that works for you, not a burden that creates stress.</p>
+                <p>Our approach is rooted in longevity. We focus on clean code, responsive design, and SEO-friendly structures that help you stay ahead. You focus on your mission and the work you do best; we’ll handle the digital heavy lifting to ensure your online presence is always a powerful reflection of your brand.</p>
             </div>
             <div class="wcs-image-box">
-                <img src="images/home/about-placeholder-2.jpg" alt="Partnering for Growth">
+                <img src="images/home/about-placeholder-2.jpg" alt="Team at work">
             </div>
         </section>
 
-        <section class="approach-section">
-            <div class="approach-content">
-                <h2>Our Approach to Excellence</h2>
-                <p>Technology should never be a barrier to your mission—it should be a catalyst. Our approach is grounded in the belief that clean code, intuitive navigation, and high-speed performance are non-negotiable requirements for any modern organization. We don't believe in "filler" content or bloated designs. Instead, we strip away the unnecessary, focusing strictly on what helps you connect with the people who matter most to your organization. This minimalist yet high-impact philosophy allows us to deliver websites that load faster, convert better, and stand the test of time.</p>
+        <!-- NEW ADDITIONAL SECTION -->
+        <section class="wcs-feature-block wcs-philosophy">
+            <div class="wcs-text">
+                <h2>Our Philosophy of Excellence</h2>
+                <p>Excellence in the digital age is not a coincidence; it is the result of intentional design, rigorous testing, and a deep understanding of human behavior. At Web Creation Studios, we operate on the fundamental principle that form must always follow function, but that function should be beautiful.</p>
+                <p>We spend countless hours analyzing the latest industry trends, not to follow them blindly, but to understand how to leverage them for your specific needs. From initial wireframes to the final deployment and ongoing performance tuning, every step we take is calibrated to enhance your credibility and accelerate your organizational goals.</p>
             </div>
-            <div class="wcs-image-box" style="margin-top: 3rem; max-width: 800px; margin-left: auto; margin-right: auto;">
-                <img src="images/home/about-approach.jpg" alt="Our development philosophy">
+            <div class="wcs-image-box">
+                <img src="images/home/about-placeholder-3.jpg" alt="Commitment to Digital Excellence">
             </div>
         </section>
 
+        <!-- STORY -->
         <section class="story-section">
             <div class="story-content">
                 <div class="story-text">
                     <h2>Our Story</h2>
-                    <p>Web Creation Studios began with a vision to make professional web design accessible, personalized, and impactful for businesses, organizations, and entrepreneurs. Founded by Caldwell J., the company started as a passion project driven by creativity and a love for technology.</p>
-                    <p>Over time, that passion evolved into a growing web design studio serving clients across multiple industries. Today, we remain dedicated to the same principles we started with: integrity, quality, and a focus on your success.</p>
+                    <p>Web Creation Studios began with a vision to make professional web design accessible, personalized, and impactful for businesses, organizations, and entrepreneurs. Founded by Caldwell J., the company started as a passion project driven by creativity and a love for technology. </p>
+                    <p>Over time, that passion evolved into a growing web design studio serving clients across multiple industries, from event planning companies to HR consulting firms and transportation services. Today, Web Creation Studios focuses on creating modern sites that fit your needs.</p>
                 </div>
                 <div class="story-card">
                     <h2>Our Focus</h2>
@@ -124,7 +147,33 @@
             </div>
         </section>
 
-        </main>
+        <!-- MISSION -->
+        <section class="mission-section">
+            <div class="mission-card">
+                <span>MISSION</span>
+                <h2>Helping organizations succeed online through exceptional digital experiences.</h2>
+            </div>
+        </section>
+
+        <!-- VALUES & TIMELINE -->
+        <section class="values-section">
+            <h2>What We Believe</h2>
+            <div class="values-grid">
+                <div class="value-box"><h3>Quality First</h3><p>Every detail matters, from design to deployment.</p></div>
+                <div class="value-box"><h3>Innovation</h3><p>Technology evolves quickly, and so do we.</p></div>
+                <div class="value-box"><h3>Trust</h3><p>Strong relationships are built through reliability.</p></div>
+                <div class="value-box"><h3>Growth</h3><p>We build solutions designed to scale.</p></div>
+            </div>
+        </section>
+
+        <!-- CTA -->
+        <section class="about-cta">
+            <h2>Ready To Work Together?</h2>
+            <p>Let's create a website that reflects your vision and helps you achieve your goals.</p>
+            <a href="contact.html" class="primary-btn">Start Your Project</a>
+        </section>
+
+    </main>
 
     <div id="footer-container"></div>
     <script src="/js/he-fo.js"></script>
