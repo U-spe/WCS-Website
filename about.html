@@ -9,6 +9,33 @@
 
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/about.css">
+
+    <style>
+        /* NEW IMAGE & LAYOUT STYLES */
+        .feature-box {
+            display: flex;
+            align-items: center;
+            gap: 3rem;
+            margin: 4rem 0;
+            padding: 2rem;
+            flex-wrap: wrap;
+        }
+        .feature-box.reverse { flex-direction: row-reverse; }
+        
+        .feature-text, .feature-image { flex: 1; min-width: 300px; }
+        
+        .feature-image img {
+            width: 100%;
+            height: 350px;
+            object-fit: cover;
+            border-radius: 12px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        @media (max-width: 768px) {
+            .feature-box { text-align: center; gap: 1.5rem; }
+        }
+    </style>
 </head>
 <body>
 
@@ -20,74 +47,51 @@
 
     <main>
 
-        <!-- ABOUT HEADER -->
         <section class="about-header">
-
             <span class="page-tag">ABOUT WEB CREATION STUDIOS</span>
-
-            <h1>
-                The Studio Behind <span>Modern Digital Experiences</span>
-            </h1>
-
+            <h1>The Studio Behind <span>Modern Digital Experiences</span></h1>
             <p>
-                Web Creation Studios was built around one idea:
-                every organization deserves a website that looks
-                professional, performs exceptionally, and represents
-                its mission with excellence.
+                Web Creation Studios was built around one idea: every organization deserves a website 
+                that looks professional, performs exceptionally, and represents its mission with excellence.
             </p>
-
         </section>
 
-        <!-- NEW ABOUT INTRO BOX -->
-        <section class="about-intro">
-
-            <div class="about-intro-card">
-
-                <h2>About Us</h2>
-
-                <p>
-                    At Web Creation Studios, we're here to bring your vision to life through websites that really capture your brand. We believe having an online presence is not enough, and making it easy, effective, and personal is our mission. Founded on the idea that each business has a unique story, we're dedicated to capturing that essence through custom web designs that help you connect with your audience in a way that feels true to your brand.
-                </p>
-
-                <p>
-                    We take a straightforward approach focused on collaboration and simplicity. Our process with you starts right from understanding you and your goals, so we are able to create a nice-looking yet functional website for you. Be it the first impression that a new venture needs or an established brand looking to reach out further—we try our best to create a site that meets your expectations exactly. From layout to color scheme, down to the minute details, we work closely with you so that the final design is exactly as you envision.
-                </p>
-
+        <section class="feature-box">
+            <div class="feature-text">
+                <h2>Our Vision for WCS</h2>
+                <p>At Web Creation Studios, we believe that an online presence is more than just a digital placeholder. It’s an extension of your organization’s identity. We work to ensure that every site we build feels personal, effective, and perfectly aligned with your core mission.</p>
             </div>
-
+            <div class="feature-image">
+                <img src="images/home/about-placeholder-1.jpg" alt="Web Creation Studios Team">
+            </div>
         </section>
 
-        <!-- STORY -->
+        <section class="about-intro">
+            <div class="about-intro-card">
+                <h2>About Us</h2>
+                <p>We take a straightforward approach focused on collaboration and simplicity. Our process starts with understanding you and your goals, allowing us to create a functional, high-impact website. Whether it's a new venture or an established brand, we work closely with you until the final design matches your vision exactly.</p>
+            </div>
+        </section>
+
+        <section class="feature-box reverse">
+            <div class="feature-text">
+                <h2>Bridging Design & Performance</h2>
+                <p>Web Creation Studios was founded to close the gap between aesthetic appeal and technical performance. We provide businesses and ministries with solutions that don't just "look good," but actually drive results through speed, accessibility, and clean, modern development.</p>
+            </div>
+            <div class="feature-image">
+                <img src="images/home/about-placeholder-2.jpg" alt="Digital Strategy">
+            </div>
+        </section>
+
         <section class="story-section">
-
             <div class="story-content">
-
                 <div class="story-text">
                     <h2>Our Story</h2>
-
-                    <p>
-                        Web Creation Studios was founded to bridge the gap
-                        between beautiful design and practical functionality.
-                        Too many websites either looked good but performed
-                        poorly, or worked well but lacked visual impact.
-                    </p>
-
-                    <p>
-                        We set out to create websites that combine both.
-                        Every project is designed with the user experience,
-                        performance, accessibility, and long-term growth in mind.
-                    </p>
-
-                    <p>
-                        Today, Web Creation Studios works with businesses,
-                        ministries, nonprofits, and organizations seeking
-                        a stronger online presence.
-                    </p>
+                    <p>Web Creation Studios was founded to bridge the gap between beautiful design and practical functionality.</p>
+                    <p>Every project is designed with the user experience, performance, accessibility, and long-term growth in mind.</p>
                 </div>
-
                 <div class="story-card">
                     <h2>Our Focus</h2>
-
                     <ul>
                         <li>Modern Website Design</li>
                         <li>Responsive Development</li>
@@ -96,105 +100,40 @@
                         <li>Professional Branding</li>
                     </ul>
                 </div>
-
             </div>
-
         </section>
 
-        <!-- MISSION -->
         <section class="mission-section">
-
             <div class="mission-card">
                 <span>MISSION</span>
-
-                <h2>
-                    Helping organizations succeed online through
-                    exceptional digital experiences.
-                </h2>
+                <h2>Helping organizations succeed online through exceptional digital experiences.</h2>
             </div>
-
         </section>
 
-        <!-- VALUES -->
         <section class="values-section">
-
             <h2>What We Believe</h2>
-
             <div class="values-grid">
-
-                <div class="value-box">
-                    <h3>Quality First</h3>
-                    <p>Every detail matters, from design to deployment.</p>
-                </div>
-
-                <div class="value-box">
-                    <h3>Innovation</h3>
-                    <p>Technology evolves quickly, and so do we.</p>
-                </div>
-
-                <div class="value-box">
-                    <h3>Trust</h3>
-                    <p>Strong relationships are built through reliability.</p>
-                </div>
-
-                <div class="value-box">
-                    <h3>Growth</h3>
-                    <p>We build solutions designed to scale.</p>
-                </div>
-
+                <div class="value-box"><h3>Quality First</h3><p>Every detail matters, from design to deployment.</p></div>
+                <div class="value-box"><h3>Innovation</h3><p>Technology evolves quickly, and so do we.</p></div>
+                <div class="value-box"><h3>Trust</h3><p>Strong relationships are built through reliability.</p></div>
+                <div class="value-box"><h3>Growth</h3><p>We build solutions designed to scale.</p></div>
             </div>
-
         </section>
 
-        <!-- TIMELINE -->
         <section class="timeline-section">
-
             <h2>The Process</h2>
-
             <div class="timeline">
-
-                <div class="timeline-item">
-                    <span>01</span>
-                    <h3>Discover</h3>
-                    <p>Learn about your goals and vision.</p>
-                </div>
-
-                <div class="timeline-item">
-                    <span>02</span>
-                    <h3>Design</h3>
-                    <p>Create modern user-focused experiences.</p>
-                </div>
-
-                <div class="timeline-item">
-                    <span>03</span>
-                    <h3>Develop</h3>
-                    <p>Build fast and reliable solutions.</p>
-                </div>
-
-                <div class="timeline-item">
-                    <span>04</span>
-                    <h3>Launch</h3>
-                    <p>Deliver a polished final product.</p>
-                </div>
-
+                <div class="timeline-item"><span>01</span><h3>Discover</h3><p>Learn about your goals and vision.</p></div>
+                <div class="timeline-item"><span>02</span><h3>Design</h3><p>Create modern user-focused experiences.</p></div>
+                <div class="timeline-item"><span>03</span><h3>Develop</h3><p>Build fast and reliable solutions.</p></div>
+                <div class="timeline-item"><span>04</span><h3>Launch</h3><p>Deliver a polished final product.</p></div>
             </div>
-
         </section>
 
-        <!-- CTA -->
         <section class="about-cta">
-
             <h2>Ready To Work Together?</h2>
-
-            <p>
-                Let's create a website that reflects your vision
-                and helps you achieve your goals.
-            </p>
-
-            <a href="contact.html" class="primary-btn">
-                Start Your Project
-            </a>
-
+            <p>Let's create a website that reflects your vision and helps you achieve your goals.</p>
+            <a href="contact.html" class="primary-btn">Start Your Project</a>
         </section>
 
     </main>
