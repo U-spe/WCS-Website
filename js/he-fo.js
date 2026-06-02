@@ -20,12 +20,12 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     await loadComponent(
         "navbar-container",
-        "components/navbar.html"
+        "nav/header.html"
     );
 
     await loadComponent(
         "footer-container",
-        "components/footer.html"
+        "nav/footer.html"
     );
 
     let lastScroll = 0;
