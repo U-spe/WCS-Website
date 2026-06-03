@@ -1,4 +1,4 @@
-import { renderSectionHtml } from './templates.js';
+import { renderSectionHtml } from './mtemp.js';
 
 document.addEventListener('DOMContentLoaded', () => {
   const generateBtn = document.getElementById('generate-btn'); 
