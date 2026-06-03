@@ -1,4 +1,5 @@
-const TEMPLATE_LIBRARY = [
+// 1. Export your Template Library
+export const TEMPLATE_LIBRARY = [
   {
     id: "saas_dark",
     name: "Dark SaaS",
@@ -1401,14 +1402,56 @@ const TEMPLATE_LIBRARY = [
   }
 ];
 
-function getRandomTemplate() {
-return TEMPLATE_LIBRARY[
-Math.floor(Math.random() * TEMPLATE_LIBRARY.length)
-];
+
+// 2. Export Helper Functions
+export function getRandomTemplate() {
+  return TEMPLATE_LIBRARY[Math.floor(Math.random() * TEMPLATE_LIBRARY.length)];
 }
 
-function getTemplateById(id) {
-return TEMPLATE_LIBRARY.find(
-template => template.id === id
-);
+export function getTemplateById(id) {
+  return TEMPLATE_LIBRARY.find(template => template.id === id);
+}
+
+// 3. Export the Renderer Function (This is what builder.js was missing!)
+export function renderSectionHtml(sectionData) {
+  // sectionData expects: { type: 'hero', variant: 'center', content: { title: '...', ... } }
+  const { type, variant, content } = sectionData;
+
+  // Basic styling wrapper
+  const style = `padding: 60px 20px; text-align: center; border-bottom: 1px solid #eee;`;
+
+  switch (type) {
+    case 'header':
+      return `<header style="${style} font-weight:bold;">${content?.title || 'Logo/Nav'}</header>`;
+    
+    case 'hero':
+      return `
+        <section style="${style} background: #f9fafb;">
+          <h1>${content?.title || 'Main Headline'}</h1>
+          <p>${content?.subtitle || 'Subheadline description'}</p>
+          <button style="margin-top:20px;">Get Started</button>
+        </section>`;
+
+    case 'about':
+      return `
+        <section style="${style}">
+          <h2>About Us</h2>
+          <p>${content?.text || 'Our company mission...'}</p>
+        </section>`;
+
+    case 'services':
+      return `
+        <section style="${style}">
+          <h2>Our Services</h2>
+          <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:20px;">
+             <div>Service 1</div><div>Service 2</div><div>Service 3</div>
+          </div>
+        </section>`;
+
+    case 'footer':
+      return `<footer style="${style} font-size: 0.8rem; color: #666;">© 2026 AI Generated Site</footer>`;
+
+    default:
+      return `<section style="${style}"><h3>${type.toUpperCase()} Section</h3><p>Content generation pending...</p></section>`;
+  }
 }
