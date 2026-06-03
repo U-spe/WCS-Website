@@ -240,9 +240,9 @@ iframe{
     <input id="audience" placeholder="Target Audience">
     
     <div class="actions">
-        <button class="primary" onclick="generateSite()">Generate Website</button>
-        <button class="secondary" onclick="regenerate()">Redo Design</button>
-        <button class="secondary" onclick="copyCode()">Copy Code</button>
+        <button id="generate-btn" class="primary">Generate Website</button>
+        <button id="redo-btn" class="secondary">Redo Design</button>
+        <button id="copy-btn" class="secondary">Copy Code</button>
     </div>
 </div>
 
@@ -254,8 +254,7 @@ iframe{
     <iframe id="frame"></iframe>
 </div>
 
-<script src="/ai-website-builder/templates.js"></script>
-<script src="/ai-website-builder/builder.js"></script>
+<script type="module" src="/ai-website-builder/builder.js"></script>
 
 </body>
 </html>
