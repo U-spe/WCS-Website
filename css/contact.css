@@ -1,0 +1,235 @@
+/* --- CONTACT.CSS --- */
+
+/* SECTION 1: HERO & INFO */
+.contact-hero {
+    text-align: center;
+    padding: 8rem 2rem 4rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.contact-hero h1 {
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    margin-top: 1rem;
+}
+
+.contact-hero p {
+    color: var(--text-muted);
+    font-size: 1.2rem;
+    margin-top: 1.5rem;
+    max-width: 650px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.8;
+}
+
+.contact-info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    margin-top: 4rem;
+}
+
+.info-card {
+    background: linear-gradient(145deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 2.5rem;
+    text-align: center;
+    transition: var(--transition);
+    backdrop-filter: blur(10px);
+}
+
+.info-card:hover {
+    transform: translateY(-8px);
+    border-color: var(--sky-blue);
+    box-shadow: 0 10px 30px rgba(56, 189, 248, 0.1);
+}
+
+.info-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    display: inline-block;
+    padding: 1rem;
+    background: rgba(37, 99, 235, 0.1);
+    border-radius: 50%;
+}
+
+.info-card h3 { font-size: 1.3rem; margin-bottom: 0.5rem; color: #fff; }
+.info-card p { color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; }
+.info-card strong { color: var(--sky-blue); }
+
+/* SECTION 2: THE FORM */
+.contact-form-section {
+    max-width: 800px;
+    margin: 0 auto 6rem;
+    padding: 0 2rem;
+}
+
+.form-container {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 4rem;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+}
+
+.form-header { text-align: center; margin-bottom: 3rem; }
+.form-header h2 { font-size: 2rem; margin-bottom: 0.5rem; }
+.form-header p { color: var(--text-muted); }
+
+.custom-form {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+}
+
+.input-group {
+    position: relative;
+    width: 100%;
+}
+
+/* Advanced Floating Labels */
+.input-group input, 
+.input-group textarea, 
+.input-group select {
+    width: 100%;
+    background: rgba(0,0,0,0.2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.2rem;
+    color: #fff;
+    font-size: 1rem;
+    outline: none;
+    transition: all 0.3s ease;
+    font-family: inherit;
+}
+
+.input-group select {
+    color: var(--text-muted);
+    cursor: pointer;
+}
+
+.input-group select option {
+    background: var(--bg);
+    color: #fff;
+}
+
+.input-group label {
+    position: absolute;
+    left: 1.2rem;
+    top: 1.2rem;
+    color: var(--text-muted);
+    pointer-events: none;
+    transition: 0.3s ease all;
+    background: var(--surface);
+    padding: 0 0.4rem;
+}
+
+/* Glow effect on focus */
+.input-group input:focus, 
+.input-group textarea:focus, 
+.input-group select:focus {
+    border-color: var(--sky-blue);
+    box-shadow: 0 0 15px rgba(56, 189, 248, 0.2);
+}
+
+/* Floating label trigger */
+.input-group input:focus ~ label,
+.input-group input:not(:placeholder-shown) ~ label,
+.input-group textarea:focus ~ label,
+.input-group textarea:not(:placeholder-shown) ~ label {
+    top: -0.6rem;
+    font-size: 0.85rem;
+    color: var(--sky-blue);
+}
+
+/* Advanced Submit Button */
+.submit-btn {
+    position: relative;
+    background: linear-gradient(135deg, var(--blue), var(--purple));
+    color: #fff;
+    border: none;
+    padding: 1.2rem;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+    margin-top: 1rem;
+}
+
+.submit-btn:hover {
+    transform: translateY(-3px);
+}
+
+.btn-glow {
+    position: absolute;
+    top: 0; left: -100%; width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: 0.5s;
+}
+
+.submit-btn:hover .btn-glow {
+    left: 100%;
+}
+
+/* SECTION 3: THE PROCESS */
+.contact-process {
+    max-width: 1200px;
+    margin: 0 auto 8rem;
+    padding: 4rem 2rem;
+    background: rgba(17, 24, 39, 0.4);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+}
+
+.process-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 3rem;
+    margin-top: 4rem;
+}
+
+.process-step {
+    position: relative;
+    padding-top: 3rem;
+}
+
+.step-number {
+    position: absolute;
+    top: -10px;
+    left: 0;
+    font-size: 4rem;
+    font-weight: 800;
+    color: rgba(255,255,255,0.05);
+    line-height: 1;
+    z-index: -1;
+}
+
+.process-step h4 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: var(--sky-blue);
+}
+
+.process-step p {
+    color: var(--text-muted);
+    line-height: 1.7;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .form-row { grid-template-columns: 1fr; gap: 2rem; }
+    .form-container { padding: 2rem; }
+    .contact-info-grid { grid-template-columns: 1fr; }
+}
