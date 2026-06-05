@@ -1,50 +1,49 @@
 /* --- TEAM.CSS --- */
 
+/* 1. Header */
 .team-header { text-align: center; padding: 8rem 2rem 4rem; }
+.team-header h1 { font-size: clamp(2.5rem, 5vw, 4.5rem); margin-top: 1rem; }
+.team-header p { color: var(--text-muted); font-size: 1.2rem; margin-top: 1.5rem; max-width: 650px; margin-left: auto; margin-right: auto; line-height: 1.8; }
 
+/* 2. Team Grid (Centered 2x2) */
 .team-grid-section {
-    max-width: 1000px; /* Constrained for 2x2 layout */
-    margin: 0 auto 8rem;
+    max-width: 1000px;
+    margin: 0 auto 6rem;
     padding: 0 2rem;
 }
-
 .team-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr); /* Forces 2 columns */
+    grid-template-columns: repeat(2, 1fr);
     gap: 3rem;
     justify-items: center;
 }
-
 .team-card {
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: var(--radius);
-    padding: 3rem;
+    padding: 3rem 2rem;
     text-align: center;
     width: 100%;
-    max-width: 400px;
-    transition: all 0.4s ease;
+    max-width: 420px;
+    transition: var(--transition);
     position: relative;
     overflow: hidden;
 }
-
-/* Gradient Border Hover Effect */
 .team-card:hover {
     border-color: var(--blue);
     transform: translateY(-10px);
     box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+    background: var(--surface-hover);
 }
-
 .image-wrapper {
     width: 180px;
     height: 180px;
     margin: 0 auto 1.5rem;
     border-radius: 50%;
-    padding: 4px; /* Space for gradient */
-    background: linear-gradient(135deg, var(--blue), var(--purple));
+    padding: 4px;
+    background: linear-gradient(135deg, var(--blue), var(--sky-blue));
     overflow: hidden;
 }
-
 .team-card img {
     width: 100%;
     height: 100%;
@@ -52,28 +51,164 @@
     border-radius: 50%;
     transition: transform 0.5s ease;
 }
+.team-card:hover img { transform: scale(1.08); }
+.team-card h3 { font-size: 1.6rem; margin-bottom: 0.5rem; }
+.role { color: var(--sky-blue); margin-bottom: 2rem; font-weight: 600; letter-spacing: 1px; }
 
-.team-card:hover img {
-    transform: scale(1.1);
+/* 3. Generic Extra Sections */
+.team-extra-section {
+    max-width: 1200px;
+    margin: 0 auto 8rem;
+    padding: 0 2rem;
 }
 
-.role {
-    color: var(--sky-blue);
-    margin-bottom: 2rem;
-    font-weight: 600;
-    letter-spacing: 1px;
+/* Toolbelt Grid */
+.toolbelt-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+}
+.tool-card {
+    background: linear-gradient(145deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--purple);
+    padding: 2rem;
+    border-radius: 12px;
+    transition: var(--transition);
+}
+.tool-card:hover { transform: translateX(10px); border-left-color: var(--sky-blue); }
+.tool-card h4 { font-size: 1.3rem; margin-bottom: 1rem; color: white; }
+.tool-card p { color: var(--text-muted); line-height: 1.7; }
+
+/* 4. Team Wins Section (Images & Text Boxes) */
+.team-wins-section {
+    background: rgba(17, 24, 39, 0.4);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 8rem 2rem;
+    margin-bottom: 8rem;
+}
+.wins-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 4rem;
+    flex-wrap: wrap;
+}
+.wins-text { flex: 1; min-width: 350px; }
+.wins-text h2 { font-size: 2.8rem; margin: 1.5rem 0; line-height: 1.2; }
+.wins-text > p { color: var(--text-muted); font-size: 1.1rem; line-height: 1.8; margin-bottom: 3rem; }
+.win-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 1.5rem;
+    border-radius: 16px;
+    margin-bottom: 1.5rem;
+    transition: var(--transition);
+}
+.win-box:hover { background: var(--surface-hover); border-color: rgba(255,255,255,0.2); }
+.win-box h3 { color: var(--sky-blue); margin-bottom: 0.5rem; font-size: 1.2rem; }
+.win-box p { color: var(--text-muted); font-size: 0.95rem; line-height: 1.6; }
+
+/* Asymmetrical Image Grid */
+.wins-image-grid {
+    flex: 1;
+    min-width: 350px;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    position: relative;
+}
+.win-img-large {
+    width: 90%;
+    height: 350px;
+    object-fit: cover;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    align-self: flex-start;
+}
+.win-img-small {
+    width: 70%;
+    height: 250px;
+    object-fit: cover;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    align-self: flex-end;
+    margin-top: -100px;
+    border: 5px solid var(--bg);
 }
 
-/* Culture Section */
-.culture-section {
-    max-width: 800px;
+/* 5. Off The Clock (Fun Facts) */
+.off-clock-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+}
+.fun-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 2.5rem;
+    text-align: center;
+    transition: var(--transition);
+}
+.fun-card:hover { transform: translateY(-8px); border-color: var(--sky-blue); }
+.fun-icon {
+    font-size: 3rem;
+    margin-bottom: 1.5rem;
+    display: inline-block;
+    padding: 1rem;
+    background: rgba(255,255,255,0.03);
+    border-radius: 50%;
+}
+.fun-card h4 { font-size: 1.4rem; margin-bottom: 1rem; }
+.fun-card p { color: var(--text-muted); line-height: 1.6; }
+
+/* 6. Core Values */
+.team-culture {
+    max-width: 1000px;
     margin: 0 auto 8rem;
     text-align: center;
-    padding: 4rem;
-    background: rgba(255,255,255,0.02);
-    border-radius: var(--radius);
+    padding: 0 2rem;
 }
+.team-culture h2 { font-size: 2.5rem; margin-bottom: 3rem; }
+.culture-boxes {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+.c-box {
+    flex: 1;
+    min-width: 250px;
+    padding: 2rem;
+    background: rgba(255,255,255,0.02);
+    border-radius: 12px;
+    border: 1px dashed rgba(255,255,255,0.1);
+}
+.c-box strong { display: block; color: var(--sky-blue); font-size: 1.2rem; margin-bottom: 1rem; }
+.c-box p { color: var(--text-muted); }
 
-@media (max-width: 768px) {
+/* 7. CTA Box */
+.team-cta-box {
+    max-width: 900px;
+    margin: 0 auto 6rem;
+    text-align: center;
+    padding: 5rem 2rem;
+    border-radius: 32px;
+    border: 1px solid rgba(56,189,248,0.3);
+    background: linear-gradient(135deg, rgba(37,99,235,.1), rgba(124,58,237,.1));
+    box-shadow: 0 0 50px rgba(37,99,235,0.1);
+}
+.team-cta-box h2 { font-size: 2.5rem; margin-bottom: 1rem; }
+.team-cta-box p { color: var(--text-muted); font-size: 1.2rem; margin-bottom: 2.5rem; }
+
+/* Responsive adjustments */
+@media (max-width: 900px) {
     .team-grid { grid-template-columns: 1fr; }
+    .win-img-small { margin-top: 0; align-self: center; width: 100%; border: none; }
+    .win-img-large { align-self: center; width: 100%; }
 }
