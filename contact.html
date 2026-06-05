@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us | Web Creation Studios</title>
+    <meta name="description" content="Get in touch with Web Creation Studios to start your next digital project. Located in Delaware.">
+    
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/contact.css">
+</head>
+<body>
+
+    <div id="navbar-container"></div>
+    <div class="bg-grid"></div>
+    <div class="bg-glow glow-1"></div>
+    <div class="bg-glow glow-2"></div>
+
+    <main>
+        <!-- SECTION 1: HERO & CONTACT INFO -->
+        <section class="contact-hero">
+            <span class="page-tag">LET'S CONNECT</span>
+            <h1>Start Your Next <span>Big Project</span></h1>
+            <p>Ready to elevate your digital presence? Reach out to our team in Delaware, and let's build something incredible together.</p>
+
+            <div class="contact-info-grid">
+                <div class="info-card">
+                    <div class="info-icon">📍</div>
+                    <h3>Headquarters</h3>
+                    <p>Proudly based in<br><strong>Delaware, USA</strong></p>
+                </div>
+                <div class="info-card">
+                    <div class="info-icon">✉️</div>
+                    <h3>Email Us</h3>
+                    <p>General Inquiries:<br><strong>hello@webcreationstudios.com</strong></p>
+                </div>
+                <div class="info-card">
+                    <div class="info-icon">⚡</div>
+                    <h3>Response Time</h3>
+                    <p>We aim to respond to all inquiries within<br><strong>24 - 48 Hours</strong></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2: THE FORMSPREE FORM -->
+        <section class="contact-form-section">
+            <div class="form-container">
+                <div class="form-header">
+                    <h2>Send Us a Message</h2>
+                    <p>Fill out the form below and we'll get back to you shortly.</p>
+                </div>
+
+                <form action="https://formspree.io/f/xanbjkap" method="POST" class="custom-form">
+                    <div class="form-row">
+                        <div class="input-group">
+                            <input type="text" id="name" name="name" required placeholder=" ">
+                            <label for="name">Your Name</label>
+                        </div>
+                        <div class="input-group">
+                            <input type="email" id="email" name="email" required placeholder=" ">
+                            <label for="email">Email Address</label>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <select id="service" name="service" required>
+                            <option value="" disabled selected>What do you need help with?</option>
+                            <option value="Website Design">Website Design & Development</option>
+                            <option value="E-Commerce">E-Commerce (Shopify)</option>
+                            <option value="Cloud Architecture">Cloud Architecture & Hosting</option>
+                            <option value="AI Integration">AI Integration & Chatbots</option>
+                            <option value="Other">Other Inquiry</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group">
+                        <textarea id="message" name="message" rows="5" required placeholder=" "></textarea>
+                        <label for="message">Tell us about your project details...</label>
+                    </div>
+
+                    <button type="submit" class="submit-btn">
+                        <span>Send Message</span>
+                        <div class="btn-glow"></div>
+                    </button>
+                </form>
+            </div>
+        </section>
+
+        <!-- SECTION 3: WHAT HAPPENS NEXT (The Process) -->
+        <section class="contact-process">
+            <div class="section-heading" style="text-align: center;">
+                <span>THE TIMELINE</span>
+                <h2>What Happens Next?</h2>
+            </div>
+            
+            <div class="process-grid">
+                <div class="process-step">
+                    <div class="step-number">01</div>
+                    <h4>Discovery</h4>
+                    <p>We review your inquiry and reach out to schedule a quick introduction call to understand your vision.</p>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">02</div>
+                    <h4>Strategy</h4>
+                    <p>Our experts put together a custom proposal, outlining the tech stack, timeline, and deliverables.</p>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">03</div>
+                    <h4>Execution</h4>
+                    <p>Once approved, our team gets to work turning your ideas into a high-performance reality.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div id="footer-container"></div>
+    <script src="/js/he-fo.js"></script>
+</body>
+</html>
