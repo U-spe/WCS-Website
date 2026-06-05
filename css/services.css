@@ -1,0 +1,166 @@
+/* --- SERVICES.CSS --- */
+
+/* 1. Hero Section */
+.services-hero {
+    text-align: center;
+    padding: 8rem 2rem 4rem;
+    max-width: 900px;
+    margin: 0 auto;
+}
+.services-hero h1 { font-size: clamp(2.5rem, 5vw, 4.5rem); margin-top: 1rem; }
+.services-hero p {
+    color: var(--text-muted);
+    font-size: 1.2rem;
+    margin-top: 1.5rem;
+    line-height: 1.8;
+}
+
+/* 2. Detailed Services Grid */
+.services-showcase {
+    max-width: 1300px;
+    margin: 0 auto 6rem;
+    padding: 0 2rem;
+}
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2.5rem;
+}
+.service-card {
+    background: linear-gradient(145deg, rgba(255,255,255,0.03), rgba(0,0,0,0.2));
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 3rem 2rem;
+    transition: all 0.4s ease;
+    display: flex;
+    flex-direction: column;
+}
+.service-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--sky-blue);
+    box-shadow: 0 15px 35px rgba(37,99,235,0.15);
+    background: var(--surface-hover);
+}
+.service-icon {
+    font-size: 3rem;
+    margin-bottom: 1.5rem;
+    background: rgba(37, 99, 235, 0.1);
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 16px;
+    border: 1px solid rgba(56,189,248,0.2);
+}
+.service-card h2 { font-size: 1.8rem; margin-bottom: 1rem; }
+.service-desc { color: #fff; font-size: 1.05rem; line-height: 1.7; margin-bottom: 2rem; }
+.service-details {
+    list-style: none;
+    padding: 0;
+    margin-top: auto;
+    border-top: 1px solid rgba(255,255,255,0.05);
+    padding-top: 1.5rem;
+}
+.service-details li {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    margin-bottom: 0.8rem;
+    line-height: 1.6;
+    display: flex;
+    flex-direction: column;
+}
+.service-details strong { color: var(--sky-blue); margin-bottom: 0.2rem; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; }
+
+/* 3. The Process Timeline */
+.process-section {
+    max-width: 900px;
+    margin: 0 auto 8rem;
+    padding: 4rem 2rem;
+}
+.timeline-container {
+    position: relative;
+    padding-left: 3rem;
+}
+.timeline-container::before {
+    content: '';
+    position: absolute;
+    left: 15px;
+    top: 0;
+    height: 100%;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--sky-blue), var(--purple));
+}
+.timeline-step {
+    position: relative;
+    margin-bottom: 3rem;
+}
+.timeline-step:last-child { margin-bottom: 0; }
+.step-dot {
+    position: absolute;
+    left: -3rem;
+    top: 0;
+    width: 32px;
+    height: 32px;
+    background: var(--bg);
+    border: 2px solid var(--sky-blue);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: var(--sky-blue);
+    transform: translateX(-50%);
+    box-shadow: 0 0 15px rgba(56,189,248,0.3);
+}
+.step-content h3 { font-size: 1.5rem; margin-bottom: 0.5rem; color: #fff; }
+.step-content p { color: var(--text-muted); line-height: 1.7; }
+
+/* 4. Why Choose Us */
+.why-us-section {
+    background: rgba(17, 24, 39, 0.4);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 6rem 2rem;
+    margin-bottom: 8rem;
+}
+.why-us-content { max-width: 1200px; margin: 0 auto; text-align: center; }
+.why-us-content h2 { font-size: 2.5rem; margin-bottom: 4rem; }
+.reasons-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+}
+.reason-box {
+    background: var(--surface);
+    padding: 2.5rem 2rem;
+    border-radius: 16px;
+    border: 1px solid var(--border);
+}
+.reason-box h4 { color: var(--sky-blue); font-size: 1.3rem; margin-bottom: 1rem; }
+.reason-box p { color: var(--text-muted); line-height: 1.6; }
+
+/* 5. CTA Section */
+.services-cta {
+    max-width: 800px;
+    margin: 0 auto 6rem;
+    text-align: center;
+    padding: 5rem 2rem;
+    border-radius: 32px;
+    border: 1px solid rgba(56,189,248,0.3);
+    background: linear-gradient(135deg, rgba(37,99,235,.1), rgba(124,58,237,.1));
+    box-shadow: 0 0 50px rgba(37,99,235,0.1);
+}
+.services-cta h2 { font-size: 2.2rem; margin-bottom: 1.5rem; }
+.services-cta p { color: var(--text-muted); font-size: 1.1rem; margin-bottom: 2.5rem; line-height: 1.7;}
+.cta-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+/* Mobile Adjustments */
+@media (max-width: 768px) {
+    .services-grid { grid-template-columns: 1fr; }
+    .timeline-container { padding-left: 2rem; }
+    .timeline-container::before { left: 0; }
+    .step-dot { left: -2rem; }
+    .cta-buttons { flex-direction: column; }
+    .cta-buttons a { width: 100%; text-align: center; }
+}
