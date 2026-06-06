@@ -1,15 +1,190 @@
-/* --- BASE VARIABLES --- */
+/* --- 0. Variables & Resets --- */
 :root {
-    --bg: #0f172a;
+    --bg-dark: #0f172a;
     --surface: #1e293b;
     --surface-hover: #334155;
-    --text-main: #f8fafc;
+    --text-white: #ffffff;
     --text-muted: #94a3b8;
     --sky-blue: #38bdf8;
-    --border: rgba(255, 255, 255, 0.1);
+    --border: #334155;
 }
 
-/* --- BUTTONS --- */
+* { box-sizing: border-box; }
+
+body {
+    background-color: var(--bg-dark);
+    color: var(--text-white);
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+/* --- 1. Background Elements --- */
+.bg-grid {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background-image: radial-gradient(var(--border) 1px, transparent 1px);
+    background-size: 50px 50px;
+    z-index: -2;
+    opacity: 0.3;
+}
+
+.bg-glow {
+    position: fixed;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(56,189,248,0.15) 0%, transparent 70%);
+    z-index: -1;
+    pointer-events: none;
+}
+.top-glow { top: -200px; left: -200px; }
+.bottom-glow { bottom: -100px; right: -200px; }
+
+/* --- 2. Utilities --- */
+.text-center { text-align: center; }
+.page-tag {
+    color: var(--sky-blue);
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 1rem;
+}
+
+/* --- 3. Hero Section --- */
+.pricing-hero {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 4rem;
+    padding: 8rem 5% 6rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+.hero-content { flex: 1; }
+.hero-content h1 { font-size: clamp(2.5rem, 5vw, 4rem); margin-bottom: 1.5rem; line-height: 1.1; }
+.hero-content h1 span { color: var(--sky-blue); }
+.hero-content p { color: var(--text-muted); font-size: 1.1rem; margin-bottom: 2.5rem; line-height: 1.6; }
+
+.hero-graphics {
+    flex: 1;
+    position: relative;
+    min-height: 400px;
+}
+.hero-main-img {
+    width: 100%;
+    max-width: 450px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    background: #111;
+    display: block;
+    margin: 0 auto;
+}
+
+.floating-element {
+    position: absolute;
+    background: var(--surface);
+    padding: 1rem;
+    border-radius: 12px;
+    font-size: 1.5rem;
+    border: 1px solid var(--border);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    z-index: 3;
+    animation: float 6s ease-in-out infinite;
+}
+.el-1 { top: 10%; left: 10%; }
+.el-2 { bottom: 10%; right: 10%; animation-delay: -2s; }
+.el-3 { top: 50%; left: -20px; animation-delay: -4s; }
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+}
+
+/* --- 4. Philosophy Section --- */
+.philosophy-section { padding: 6rem 5%; background: rgba(0,0,0,0.2); }
+.philosophy-grid {
+    display: flex;
+    align-items: center;
+    gap: 4rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+.philosophy-image, .philosophy-text { flex: 1; }
+.philosophy-image img { width: 100%; border-radius: 20px; border: 1px solid var(--border); }
+.philosophy-text h2 { font-size: 2.5rem; margin-bottom: 1.5rem; }
+.philosophy-text p { font-size: 1.1rem; line-height: 1.7; color: var(--text-muted); }
+
+/* --- 5. Foundation Section --- */
+.primary-package-section { padding: 6rem 5%; max-width: 900px; margin: 0 auto; }
+.section-header h2 { font-size: 2.5rem; margin-bottom: 0.5rem; }
+.section-header p { color: var(--text-muted); margin-bottom: 3rem; }
+
+.package-card.main-package {
+    background: var(--surface);
+    border: 2px solid var(--sky-blue);
+    border-radius: 24px;
+    padding: 3rem;
+    text-align: center;
+}
+.price { font-size: 4rem; font-weight: 700; color: var(--sky-blue); margin: 1rem 0; }
+.price span { font-size: 1.2rem; color: var(--text-muted); display: block; }
+.feature-list { 
+    list-style: none; 
+    padding: 0; 
+    margin: 2rem auto; 
+    text-align: left; 
+    display: inline-block; 
+}
+.feature-list li { margin-bottom: 1rem; font-size: 1.1rem; }
+
+/* --- 6. Add-Ons --- */
+.addons-section { padding: 6rem 5%; max-width: 1200px; margin: 0 auto; }
+.addons-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+}
+.addon-card {
+    background: var(--surface);
+    padding: 2rem;
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    transition: 0.3s;
+}
+.addon-card:hover { transform: translateY(-10px); border-color: var(--sky-blue); }
+.addon-icon { font-size: 2.5rem; margin-bottom: 1rem; }
+.addon-price { color: var(--sky-blue); font-weight: bold; margin: 1rem 0; font-size: 1.25rem; }
+.addon-price span { color: var(--text-muted); font-weight: normal; font-size: 0.9rem; }
+
+/* --- 7. Transparency --- */
+.transparency-section { padding: 4rem 5%; max-width: 900px; margin: 0 auto; }
+.disclaimer-box {
+    background: rgba(56, 189, 248, 0.05);
+    border: 1px dashed var(--sky-blue);
+    padding: 2rem;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+.icon-pulse { font-size: 3rem; animation: pulse 2s infinite; }
+@keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.1); opacity: 0.7; }
+}
+
+/* --- 8. CTA Section --- */
+.cta-section { padding: 8rem 5%; }
+.cta-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 4rem;
+    border: 1px solid var(--border);
+    border-radius: 24px;
+}
+.cta-buttons { display: flex; gap: 1rem; justify-content: center; margin-top: 2rem; }
 .primary-btn {
     background: var(--sky-blue);
     padding: 1rem 2rem;
@@ -17,8 +192,7 @@
     text-decoration: none;
     border-radius: 50px;
     font-weight: 700;
-    display: inline-block;
-    transition: all 0.3s ease;
+    transition: 0.3s;
 }
 .secondary-btn {
     border: 1px solid var(--sky-blue);
@@ -27,39 +201,7 @@
     text-decoration: none;
     border-radius: 50px;
     font-weight: 700;
-    display: inline-block;
-    transition: all 0.3s ease;
 }
-.secondary-btn:hover { background: rgba(56, 189, 248, 0.1); }
-
-/* --- BACKGROUND GLOWS --- */
-.bg-glow {
-    position: fixed;
-    width: 600px;
-    height: 600px;
-    background: radial-gradient(circle, rgba(56,189,248,0.1) 0%, transparent 70%);
-    z-index: -1;
-    pointer-events: none;
-}
-.top-glow { top: -200px; left: -200px; }
-.bottom-glow { bottom: -200px; right: -200px; }
-
-/* --- HERO & SECTIONS --- */
-.pricing-hero { display: flex; align-items: center; gap: 4rem; padding: 8rem 5% 6rem; max-width: 1200px; margin: 0 auto; }
-.hero-content { flex: 1; }
-.hero-graphics { flex: 1; position: relative; }
-.hero-main-img { width: 100%; border-radius: 20px; border: 1px solid var(--border); }
-
-/* Grid & Cards */
-.addons-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; padding: 4rem 5%; max-width: 1200px; margin: 0 auto; }
-.addon-card { background: var(--surface); padding: 2rem; border-radius: 16px; border: 1px solid var(--border); transition: 0.3s; }
-.addon-card:hover { transform: translateY(-10px); border-color: var(--sky-blue); }
-
-/* Primary Package Card */
-.main-package { background: var(--surface); padding: 3rem; border-radius: 24px; border: 2px solid var(--sky-blue); text-align: center; max-width: 700px; margin: 0 auto; }
-.price { font-size: 3rem; font-weight: bold; color: var(--sky-blue); }
-
-/* Pulse Animation */
 .pulse-btn { animation: btnPulse 2s infinite; }
 @keyframes btnPulse {
     0% { box-shadow: 0 0 0 0 rgba(56,189,248,0.4); }
@@ -67,7 +209,10 @@
     100% { box-shadow: 0 0 0 0 rgba(56,189,248,0); }
 }
 
-/* Responsive */
+/* --- 9. Responsive --- */
 @media (max-width: 768px) {
     .pricing-hero, .philosophy-grid { flex-direction: column; text-align: center; }
+    .hero-graphics { min-height: 200px; }
+    .cta-buttons { flex-direction: column; }
+    .disclaimer-box { flex-direction: column; text-align: center; }
 }
