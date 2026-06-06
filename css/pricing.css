@@ -1,61 +1,73 @@
-/* Ensure the page isn't blank */
+/* --- BASE VARIABLES --- */
 :root {
-    --bg-dark: #0f172a;
-    --text-white: #ffffff;
+    --bg: #0f172a;
+    --surface: #1e293b;
+    --surface-hover: #334155;
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
     --sky-blue: #38bdf8;
+    --border: rgba(255, 255, 255, 0.1);
 }
 
-body {
-    background-color: var(--bg-dark);
-    color: var(--text-white);
-    font-family: sans-serif;
-    margin: 0;
-    padding: 0;
-}
-
-/* Ensure content takes up space */
-main {
-    display: block;
-    width: 100%;
-}
-
-/* Visibility fix for elements */
-.pricing-hero, .philosophy-section, .primary-package-section, .addons-section, .transparency-section, .cta-section {
-    padding: 4rem 10%;
-    border-bottom: 1px solid #334155;
-}
-
+/* --- BUTTONS --- */
 .primary-btn {
-    background-color: var(--sky-blue);
+    background: var(--sky-blue);
     padding: 1rem 2rem;
     color: #000;
     text-decoration: none;
-    border-radius: 5px;
+    border-radius: 50px;
+    font-weight: 700;
     display: inline-block;
+    transition: all 0.3s ease;
 }
-
-.addons-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 20px;
+.secondary-btn {
+    border: 1px solid var(--sky-blue);
+    padding: 1rem 2rem;
+    color: var(--sky-blue);
+    text-decoration: none;
+    border-radius: 50px;
+    font-weight: 700;
+    display: inline-block;
+    transition: all 0.3s ease;
 }
+.secondary-btn:hover { background: rgba(56, 189, 248, 0.1); }
 
-.addon-card {
-    background: #1e293b;
-    padding: 20px;
-    border-radius: 10px;
-}
-
-/* Animated Elements */
+/* --- BACKGROUND GLOWS --- */
 .bg-glow {
     position: fixed;
-    width: 300px;
-    height: 300px;
-    background: radial-gradient(circle, rgba(56,189,248,0.2) 0%, transparent 70%);
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(56,189,248,0.1) 0%, transparent 70%);
     z-index: -1;
     pointer-events: none;
 }
+.top-glow { top: -200px; left: -200px; }
+.bottom-glow { bottom: -200px; right: -200px; }
 
-/* Add this to verify the file is linked properly */
-/* If you see a green border, the CSS is loading */
-/* body { border: 5px solid green; } */
+/* --- HERO & SECTIONS --- */
+.pricing-hero { display: flex; align-items: center; gap: 4rem; padding: 8rem 5% 6rem; max-width: 1200px; margin: 0 auto; }
+.hero-content { flex: 1; }
+.hero-graphics { flex: 1; position: relative; }
+.hero-main-img { width: 100%; border-radius: 20px; border: 1px solid var(--border); }
+
+/* Grid & Cards */
+.addons-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; padding: 4rem 5%; max-width: 1200px; margin: 0 auto; }
+.addon-card { background: var(--surface); padding: 2rem; border-radius: 16px; border: 1px solid var(--border); transition: 0.3s; }
+.addon-card:hover { transform: translateY(-10px); border-color: var(--sky-blue); }
+
+/* Primary Package Card */
+.main-package { background: var(--surface); padding: 3rem; border-radius: 24px; border: 2px solid var(--sky-blue); text-align: center; max-width: 700px; margin: 0 auto; }
+.price { font-size: 3rem; font-weight: bold; color: var(--sky-blue); }
+
+/* Pulse Animation */
+.pulse-btn { animation: btnPulse 2s infinite; }
+@keyframes btnPulse {
+    0% { box-shadow: 0 0 0 0 rgba(56,189,248,0.4); }
+    70% { box-shadow: 0 0 0 15px rgba(56,189,248,0); }
+    100% { box-shadow: 0 0 0 0 rgba(56,189,248,0); }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .pricing-hero, .philosophy-grid { flex-direction: column; text-align: center; }
+}
