@@ -4,10 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pricing & Packages | Web Creation Studios</title>
+    <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/css/pricing.css">
 </head>
 <body>
 
+    <div id="navbar-container"></div>
+    
+    <!-- Background Elements -->
+    <div class="bg-grid"></div>
     <div class="bg-glow top-glow"></div>
     <div class="bg-glow bottom-glow"></div>
 
@@ -16,71 +21,136 @@
             <div class="hero-content">
                 <span class="page-tag">INVEST IN YOUR BRAND</span>
                 <h1>Transparent Pricing,<br><span>Premium Results</span></h1>
-                <p>We don't just build websites; we engineer long-term digital assets. Build a package that perfectly fits your specific needs, budget, and business goals.</p>
+                <p>We don't just build websites; we engineer long-term digital assets. Build a package that perfectly fits your specific needs, budget, and business goals without sacrificing quality.</p>
                 <a href="#primary-package" class="primary-btn">View Our Packages</a>
             </div>
             <div class="hero-graphics">
                 <div class="floating-element el-1">💻</div>
                 <div class="floating-element el-2">🚀</div>
                 <div class="floating-element el-3">📈</div>
-                <div class="hero-main-img"></div>
+                <img src="/images/pricing/pricing-hero.jpg" alt="Web Design Workspace" class="hero-main-img">
             </div>
         </section>
 
         <section class="philosophy-section">
             <div class="philosophy-grid">
+                <div class="philosophy-image">
+                    <img src="/images/pricing/quality-support.jpg" alt="Team Collaboration">
+                </div>
                 <div class="philosophy-text">
                     <span class="page-tag">OUR APPROACH</span>
                     <h2>Quality, Customization, & Support</h2>
                     <p>Your business is unique, and your website should be too. We believe in providing straightforward, approachable pricing that reflects the true value of a professionally built digital presence.</p>
+                    <p style="color: var(--text-muted); margin-top: 1rem;">Instead of locking you into rigid tiers, we offer a powerful foundational package with the absolute freedom to bolt on exactly what you need to scale.</p>
                 </div>
             </div>
         </section>
 
         <section id="primary-package" class="primary-package-section">
-            <div class="section-header">
+            <div class="section-header text-center">
                 <h2>The Foundation</h2>
                 <p>Everything you need to establish a professional online presence.</p>
             </div>
+            
             <div class="package-card main-package">
-                <h3>Basic Website Package</h3>
-                <div class="price"><span>Starting at</span> $900</div>
-                <ul class="feature-list">
-                    <li>✔️ Custom, responsive web design</li>
-                    <li>✔️ Mobile & Tablet optimization</li>
-                    <li>✔️ Hosted on a secure subdomain</li>
-                    <li>✔️ Core SEO best practices</li>
-                </ul>
+                <div class="package-header">
+                    <h3>Basic Website Package</h3>
+                    <div class="price"><span>Starting at</span> $900</div>
+                </div>
+                <div class="package-body">
+                    <p class="package-desc">A professionally designed, custom-built website engineered to capture your brand's unique identity.</p>
+                    <ul class="feature-list">
+                        <li>✔️ Custom, responsive web design</li>
+                        <li>✔️ Mobile & Tablet optimization</li>
+                        <li>✔️ Hosted on a secure Web Creation Studios subdomain</li>
+                        <li>✔️ Core SEO best practices built-in</li>
+                        <li>✔️ Long-term foundational support</li>
+                    </ul>
+                </div>
             </div>
         </section>
 
         <section class="addons-section">
-            <h2>Optional Add-Ons</h2>
+            <div class="section-header text-center">
+                <h2>Optional Add-Ons & Upgrades</h2>
+                <p>Customize your project. Only pay for the features your business actually needs.</p>
+            </div>
+
             <div class="addons-grid">
-                <div class="addon-card"><h3>E-Commerce</h3><p>$125 one-time</p></div>
-                <div class="addon-card"><h3>Domain</h3><p>$25 1st year</p></div>
-                <div class="addon-card"><h3>Hosting</h3><p>$15/year</p></div>
-                <div class="addon-card"><h3>CMS</h3><p>$80/year</p></div>
-                <div class="addon-card"><h3>Analytics</h3><p>$100 one-time</p></div>
-                <div class="addon-card"><h3>Logo</h3><p>Starting at $20</p></div>
-                <div class="addon-card"><h3>Email</h3><p>$30/account</p></div>
-                <div class="addon-card"><h3>Security</h3><p>$45/year</p></div>
+                <div class="addon-card">
+                    <div class="addon-icon">🛒</div>
+                    <h3>E-Commerce</h3>
+                    <div class="addon-price">$125 <span>one-time</span></div>
+                    <p>Full online store functionality with secure checkout and robust product listings.</p>
+                </div>
+                <div class="addon-card">
+                    <div class="addon-icon">🌐</div>
+                    <h3>Custom Domain</h3>
+                    <div class="addon-price">$25 <span>1st year</span></div>
+                    <p>Ditch the subdomain and secure a personalized, professional domain (e.g., yourbusiness.com).</p>
+                </div>
+                <div class="addon-card">
+                    <div class="addon-icon">☁️</div>
+                    <h3>Hosting</h3>
+                    <div class="addon-price">$15 <span>per year</span></div>
+                    <p>High-performance, reliable hosting with dependable uptime to keep your site live 24/7.</p>
+                </div>
+                <div class="addon-card">
+                    <div class="addon-icon">📝</div>
+                    <h3>CMS</h3>
+                    <div class="addon-price">$80 <span>per year</span></div>
+                    <p>Take control. We set up a custom CMS so you can update text and images easily.</p>
+                </div>
+                <div class="addon-card">
+                    <div class="addon-icon">📊</div>
+                    <h3>Analytics</h3>
+                    <div class="addon-price">$100 <span>one-time</span></div>
+                    <p>Configure advanced traffic and performance tracking to uncover valuable business insights.</p>
+                </div>
+                <div class="addon-card">
+                    <div class="addon-icon">🎨</div>
+                    <h3>Logo Design</h3>
+                    <div class="addon-price">Starting at $20</div>
+                    <p>Establish a strong identity with a professional logo tailored to your business niche.</p>
+                </div>
+                <div class="addon-card">
+                    <div class="addon-icon">✉️</div>
+                    <h3>Email</h3>
+                    <div class="addon-price">$30 <span>/account</span></div>
+                    <p>Build trust with professional business email addresses connected to your domain.</p>
+                </div>
+                <div class="addon-card">
+                    <div class="addon-icon">🔒</div>
+                    <h3>Security</h3>
+                    <div class="addon-price">$45 <span>per year</span></div>
+                    <p>Advanced SSL protection, active malware scanning, and rigorous security protocols.</p>
+                </div>
             </div>
         </section>
 
         <section class="transparency-section">
             <div class="disclaimer-box">
-                <h3>Transparent Pricing Policy</h3>
-                <p>Final add-on pricing may vary based on project complexity. We always provide a clear quote before starting.</p>
+                <div class="icon-pulse">⚠️</div>
+                <div class="disclaimer-content">
+                    <h3>Transparent Pricing Policy</h3>
+                    <p><strong>Note on Pricing Variability:</strong> Final add-on pricing may vary based on project complexity. We always provide a clear, detailed quote before any work begins.</p>
+                </div>
             </div>
         </section>
 
-        <section class="cta-section">
-            <h2>Ready to Build?</h2>
-            <a href="/contact.html" class="primary-btn">Start Your Project</a>
+        <section class="cta-section text-center">
+            <div class="cta-container">
+                <h2>Ready to Build?</h2>
+                <p>Let's map out a digital strategy that fits your budget. Reach out today for a free consultation.</p>
+                <div class="cta-buttons">
+                    <a href="/contact.html" class="primary-btn pulse-btn">Start Your Project</a>
+                    <a href="/portfolio.html" class="secondary-btn">View Our Work</a>
+                </div>
+            </div>
         </section>
     </main>
 
+    <div id="footer-container"></div>
     <script src="/js/he-fo.js"></script>
 </body>
 </html>
