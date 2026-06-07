@@ -7,6 +7,52 @@
 
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/css/pricing.css">
+    
+    <!-- Inline styles to address theme coloring and text spacing -->
+    <style>
+        :root {
+            --brand-primary: #38bdf8;   /* Vibrant sky blue */
+            --brand-secondary: #0ea5e9; /* Deep sky blue */
+            --text-muted: #94a3b8;      /* Soft slate gray */
+            --heading-color: #f8fafc;   /* Crisp off-white */
+        }
+
+        /* Title block wrapper to control spacing and alignment */
+        .title-block {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;                  /* Generous space between tag/heading/subtext */
+            margin-bottom: 50px;        /* Pushes section content down comfortably */
+        }
+
+        /* Section Headings */
+        .section-header h2 {
+            color: var(--heading-color);
+            font-size: 2.25rem;
+            font-weight: 700;
+            letter-spacing: -0.025em;
+            line-height: 1.25;
+            margin: 0;
+        }
+
+        /* Section Sub-paragraphs */
+        .section-header p {
+            color: var(--text-muted);
+            font-size: 1.125rem;
+            line-height: 1.6;
+            max-width: 600px;
+            margin: 0 auto;             /* Centers paragraph text inside parent */
+        }
+
+        /* Accent Uppercase Page Tags */
+        .title-block .page-tag {
+            color: var(--brand-primary);
+            font-size: 0.87rem;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+        }
+    </style>
 </head>
 <body>
 
@@ -84,15 +130,11 @@
 <section class="value-strip-section">
 
     <div class="section-header text-center">
-
-        <span class="page-tag">
-            WHY CHOOSE WCS
-        </span>
-
-        <h2>
-            Professional Websites Without Hidden Costs
-        </h2>
-
+        <!-- Wrapped & Cleaned Spacing -->
+        <div class="title-block">
+            <span class="page-tag">WHY CHOOSE WCS</span>
+            <h2>Professional Websites Without Hidden Costs</h2>
+        </div>
     </div>
 
     <div class="value-strip">
@@ -124,16 +166,11 @@
 <section id="foundation" class="foundation-section">
 
     <div class="section-header text-center">
-
-        <h2>
-            The Foundation Package
-        </h2>
-
-        <p>
-            Everything you need to establish a strong
-            online presence.
-        </p>
-
+        <!-- Wrapped & Cleaned Spacing -->
+        <div class="title-block">
+            <h2>The Foundation Package</h2>
+            <p>Everything you need to establish a strong online presence.</p>
+        </div>
     </div>
 
     <div class="foundation-container">
@@ -183,7 +220,7 @@
                 </li>
 
                 <li>
-                    ✔ Tablet Compatibility
+                    <ul> Tablet Compatibility </ul>
                 </li>
 
                 <li>
@@ -209,16 +246,11 @@
 <section class="addons-section">
 
     <div class="section-header text-center">
-
-        <h2>
-            Optional Add Ons
-        </h2>
-
-        <p>
-            Build the perfect package
-            for your business.
-        </p>
-
+        <!-- Wrapped & Cleaned Spacing -->
+        <div class="title-block">
+            <h2>Optional Add Ons</h2>
+            <p>Build the perfect package for your business.</p>
+        </div>
     </div>
 
     <div class="addons-grid">
@@ -413,15 +445,11 @@
 <section class="faq-section">
 
     <div class="section-header text-center">
-
-        <h2>
-            Frequently Asked Questions
-        </h2>
-
-        <p>
-            Quick answers to common questions.
-        </p>
-
+        <!-- Wrapped & Cleaned Spacing -->
+        <div class="title-block">
+            <h2>Frequently Asked Questions</h2>
+            <p>Quick answers to common questions.</p>
+        </div>
     </div>
 
     <div class="faq-grid">
@@ -499,7 +527,7 @@
                 <p>
                     Every website we build
                     is optimized for desktops,
-                    tablets, and smartphones.
+                    tablelets, and smartphones.
                 </p>
             </div>
 
