@@ -1,0 +1,237 @@
+/* --- PORTFOLIO.CSS --- */
+
+/* Background Grid Integration & Glowing Nodes */
+.bg-grid {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-image: 
+        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    z-index: -2;
+    pointer-events: none;
+}
+.bg-glow {
+    position: fixed; width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(37, 99, 235, 0.12) 0%, transparent 70%);
+    filter: blur(80px); z-index: -1; pointer-events: none;
+}
+.top-glow { top: -10%; right: -10%; }
+.bottom-glow { bottom: -15%; left: -10%; }
+
+/* 1. Split Hero Section */
+.portfolio-hero {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 4rem;
+    padding: 8rem 5% 4rem;
+    max-width: 1300px;
+    margin: 0 auto;
+}
+.portfolio-hero .hero-content { flex: 1; min-width: 300px; }
+.portfolio-hero .hero-content h1 { font-size: clamp(2.5rem, 5vw, 4rem); margin-top: 1rem; margin-bottom: 1.5rem; line-height: 1.1; }
+.portfolio-hero .hero-content h1 span { color: var(--sky-blue); }
+.portfolio-hero .hero-content p { color: var(--text-muted); font-size: 1.2rem; line-height: 1.8; margin-bottom: 2rem; }
+
+.hero-image-box {
+    flex: 1;
+    position: relative;
+    min-width: 300px;
+    display: flex;
+    justify-content: center;
+}
+.floating-img {
+    width: 100%;
+    max-width: 500px;
+    border-radius: 24px;
+    border: 2px solid rgba(56,189,248,0.3);
+    box-shadow: 0 20px 50px rgba(37,99,235,0.2);
+    animation: float 6s ease-in-out infinite;
+    object-fit: cover;
+    aspect-ratio: 4/3;
+    background: #111;
+}
+
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-20px); }
+    100% { transform: translateY(0px); }
+}
+
+/* Float Badges for Portfolio Stats */
+.stat-card {
+    position: absolute;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--sky-blue);
+    padding: 0.8rem 1.4rem;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    animation: float 5s ease-in-out infinite;
+    z-index: 5;
+}
+.stat-1 { bottom: 10%; left: -15px; animation-delay: -2.5s; }
+.stat-2 { top: 12%; right: -10px; animation-delay: -4.5s; }
+.stat-num { font-size: 1.6rem; font-weight: bold; color: var(--sky-blue); line-height: 1.2; }
+.stat-label { font-size: 0.8rem; color: var(--text-muted); margin-top: 0.1rem; }
+
+/* 2. Horizontal Interactive Capabilities Strip */
+.portfolio-strip-section { padding: 4rem 2rem; overflow: hidden; background: rgba(255,255,255,0.02); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); margin-bottom: 6rem; }
+.portfolio-marquee {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    max-width: 1000px;
+    margin: 2rem auto 0;
+}
+.tech-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 1rem 2rem;
+    border-radius: 50px;
+    color: var(--sky-blue);
+    font-weight: bold;
+    transition: all 0.3s ease;
+    cursor: default;
+}
+.tech-box:hover { background: var(--sky-blue); color: #fff; transform: scale(1.1); box-shadow: 0 0 20px rgba(56,189,248,0.4); }
+
+/* 3. Portfolio Grid Layout */
+.portfolio-showcase { max-width: 1300px; margin: 0 auto 8rem; padding: 0 2rem; }
+.portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2.5rem;
+    justify-content: center;
+}
+.portfolio-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 2rem;
+    transition: all 0.4s ease;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+.portfolio-card:hover {
+    transform: translateY(-8px);
+    border-color: var(--sky-blue);
+    box-shadow: 0 15px 35px rgba(37,99,235,0.15);
+}
+.card-image {
+    width: 100%;
+    height: 200px;
+    border-radius: 12px;
+    margin-bottom: 1.5rem;
+    overflow: hidden;
+    background: #1a1a1a;
+    border: 1px solid rgba(255,255,255,0.05);
+}
+.card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+.portfolio-card:hover .card-image img { transform: scale(1.06); }
+.portfolio-card h2 { font-size: 1.5rem; margin-bottom: 1rem; color: #fff; }
+.project-desc { color: var(--text-muted); font-size: 0.98rem; line-height: 1.7; flex-grow: 1; margin-bottom: 1.5rem; }
+
+.project-footer { display: flex; align-items: center; justify-content: flex-start; }
+.project-link {
+    color: var(--sky-blue);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: color 0.3s;
+}
+.project-link:hover { color: #fff; text-decoration: underline; }
+.project-status { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); font-weight: bold; }
+
+.highlight-card { background: linear-gradient(135deg, rgba(37,99,235,.03), rgba(124,58,237,.03)); border-color: rgba(56,189,248,0.2); }
+
+/* 4. Digital Impact Section (Overlapping Layout Template) */
+.impact-section { max-width: 1200px; margin: 0 auto 8rem; padding: 0 2rem; }
+.impact-container {
+    display: flex;
+    align-items: center;
+    position: relative;
+    border-radius: 30px;
+}
+.impact-image {
+    width: 60%;
+    position: relative;
+    border-radius: 24px;
+    overflow: hidden;
+}
+.impact-image img { width: 100%; height: 450px; object-fit: cover; display: block; background: #1a1a1a; }
+.impact-glow {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(17,24,39,1));
+}
+.impact-text-box {
+    background: rgba(17, 24, 39, 0.85);
+    backdrop-filter: blur(15px);
+    border: 1px solid var(--border);
+    padding: 4rem;
+    border-radius: 24px;
+    width: 50%;
+    position: absolute;
+    right: 0;
+    box-shadow: -20px 20px 50px rgba(0,0,0,0.5);
+    border-right: 4px solid var(--sky-blue);
+}
+.impact-text-box span { color: var(--sky-blue); font-size: 0.85rem; font-weight: bold; letter-spacing: 2px; text-transform: uppercase; }
+.impact-text-box h2 { font-size: 2.2rem; margin-top: 0.5rem; margin-bottom: 1rem; }
+.impact-text-box p { color: var(--text-muted); line-height: 1.8; font-size: 1.1rem; }
+
+/* 5. Success / Philosophy Statement Card */
+.success-section { max-width: 800px; margin: 0 auto 8rem; padding: 0 2rem; }
+.success-card {
+    background: linear-gradient(145deg, rgba(255,255,255,0.05), transparent);
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 4rem;
+    border-radius: 24px;
+    text-align: center;
+    position: relative;
+    box-shadow: inset 0 0 50px rgba(0,0,0,0.5);
+}
+.success-card::before {
+    content: "”";
+    position: absolute; top: -30px; left: 50%; transform: translateX(-50%);
+    font-size: 8rem; color: rgba(56,189,248,0.2); line-height: 1; font-family: serif;
+}
+.success-quote { font-size: 1.4rem; font-style: italic; line-height: 1.8; margin-bottom: 2rem; }
+.success-author { color: var(--sky-blue); font-weight: bold; letter-spacing: 2px; text-transform: uppercase; }
+
+/* 6. CTA Setup */
+.portfolio-cta { text-align: center; padding: 6rem 2rem; background: rgba(17,24,39,0.5); border-top: 1px solid var(--border); }
+.portfolio-cta h2 { font-size: 2.2rem; margin-bottom: 1rem; }
+.portfolio-cta p { color: var(--text-muted); max-width: 600px; margin: 0 auto 2rem; line-height: 1.7; }
+.cta-buttons { display: flex; gap: 1rem; justify-content: center; }
+
+.pulse-btn { animation: btnPulse 2s infinite; }
+@keyframes btnPulse {
+    0% { box-shadow: 0 0 0 0 rgba(56, 189, 248, 0.4); }
+    70% { box-shadow: 0 0 0 15px rgba(56, 189, 248, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(56, 189, 248, 0); }
+}
+
+/* 7. Mobile Responsive Modifiers */
+@media (max-width: 900px) {
+    .portfolio-hero { flex-direction: column; text-align: center; padding-top: 6rem; }
+    .hero-image-box { width: 100%; min-width: auto; }
+    .stat-card { display: none; }
+    
+    .impact-container { flex-direction: column; }
+    .impact-image, .impact-text-box { width: 100%; position: static; }
+    .impact-text-box { margin-top: -50px; border-right: none; border-top: 4px solid var(--sky-blue); padding: 2.5rem; }
+    .impact-glow { background: linear-gradient(180deg, transparent, rgba(17,24,39,1)); }
+    
+    .cta-buttons { flex-direction: column; align-items: center; }
+    .success-card { padding: 3rem 2rem; }
+}
