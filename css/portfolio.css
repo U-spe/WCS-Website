@@ -1,237 +1,288 @@
 /* --- PORTFOLIO.CSS --- */
 
-/* Background Grid Integration & Glowing Nodes */
-.bg-grid {
+/* Asymmetrical & Custom Page Core Resets */
+.custom-grid-overlay {
     position: fixed;
     top: 0; left: 0; width: 100%; height: 100%;
     background-image: 
-        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-    background-size: 40px 40px;
+        linear-gradient(rgba(56, 189, 248, 0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(56, 189, 248, 0.02) 1px, transparent 1px);
+    background-size: 50px 50px;
     z-index: -2;
     pointer-events: none;
 }
-.bg-glow {
-    position: fixed; width: 600px; height: 600px;
-    background: radial-gradient(circle, rgba(37, 99, 235, 0.12) 0%, transparent 70%);
-    filter: blur(80px); z-index: -1; pointer-events: none;
+.glow-orb {
+    position: fixed; width: 700px; height: 700px;
+    background: radial-gradient(circle, rgba(37, 99, 235, 0.09) 0%, transparent 75%);
+    filter: blur(100px); z-index: -1; pointer-events: none;
 }
-.top-glow { top: -10%; right: -10%; }
-.bottom-glow { bottom: -15%; left: -10%; }
+.orb-top-left { top: -20%; left: -10%; }
+.orb-bottom-right { bottom: -20%; right: -10%; }
 
-/* 1. Split Hero Section */
-.portfolio-hero {
+/* 1. Dramatic Centered Hero Section */
+.creative-hero-centered {
+    padding: 10rem 2rem 5rem;
+    text-align: center;
+    max-width: 1000px;
+    margin: 0 auto;
+    position: relative;
+}
+.badge-pill {
+    background: rgba(56, 189, 248, 0.1);
+    border: 1px solid rgba(56, 189, 248, 0.2);
+    color: var(--sky-blue);
+    padding: 0.5rem 1.25rem;
+    border-radius: 50px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    display: inline-block;
+    margin-bottom: 1.5rem;
+}
+.creative-hero-centered h1 {
+    font-size: clamp(2.8rem, 6vw, 4.5rem);
+    line-height: 1.05;
+    margin: 0 0 1.5rem 0;
+    font-weight: 800;
+    letter-spacing: -1px;
+}
+.text-gradient {
+    background: linear-gradient(135deg, #fff 30%, var(--sky-blue));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+.hero-lead {
+    color: var(--text-muted);
+    font-size: 1.25rem;
+    line-height: 1.7;
+    max-width: 700px;
+    margin: 0 auto 3.5rem;
+}
+
+/* Metric Ticker Line */
+.hero-metrics {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 3rem;
+    background: rgba(255, 255, 255, 0.01);
+    border: 1px solid var(--border);
+    padding: 1.5rem 3rem;
+    border-radius: 20px;
+    display: inline-flex;
+    backdrop-filter: blur(10px);
+}
+.metric-item { display: flex; flex-direction: column; align-items: center; }
+.metric-num { font-size: 2.2rem; font-weight: 800; color: #fff; line-height: 1; }
+.metric-label { font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-top: 0.4rem; }
+.metric-divider { width: 1px; height: 40px; background: var(--border); }
+
+/* 2. Asymmetric Mosaic Grid Showcase */
+.mosaic-section { max-width: 1400px; margin: 0 auto 8rem; padding: 0 2rem; }
+.mosaic-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 2.5rem;
+}
+
+/* Base Mosaic Card Configurations */
+.mosaic-card {
+    position: relative;
+    background: #0b0f19;
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    height: 480px;
+    overflow: hidden;
+    display: flex;
+    align-items: flex-end;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s ease, box-shadow 0.4s ease;
+}
+.card-wide { grid-column: span 7; }
+.card-compact { grid-column: span 5; }
+.card-half { grid-column: span 6; }
+
+/* Structural Background Image Controllers */
+.card-bg-image {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    z-index: 1;
+    overflow: hidden;
+}
+.card-bg-image img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    opacity: 0.35;
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease;
+}
+
+/* Card Gradual Interactive Text Overlays */
+.card-overlay-content {
+    position: relative;
+    z-index: 2;
+    padding: 3rem;
+    width: 100%;
+    background: linear-gradient(to top, #060913 40%, rgba(6, 9, 19, 0.8) 70%, transparent);
+    box-sizing: border-box;
+    transition: transform 0.4s ease;
+}
+.card-header-meta h2 { font-size: 1.8rem; margin: 0.4rem 0 1rem; font-weight: 700; color: #fff; }
+.project-tag { color: var(--sky-blue); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1.5px; font-weight: 700; }
+.project-tag-alert { color: #f59e0b; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1.5px; font-weight: 700; }
+.project-summary { color: var(--text-muted); font-size: 0.98rem; line-height: 1.6; margin: 0 0 1.5rem; max-width: 90%; }
+
+/* Buttons & Interactive States */
+.launch-btn {
+    display: inline-block;
+    color: #fff;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    padding: 0.6rem 1.4rem;
+    border-radius: 50px;
+    background: rgba(255, 255, 255, 0.02);
+    backdrop-filter: blur(5px);
+    transition: all 0.3s ease;
+}
+.launch-btn:hover {
+    background: #fff;
+    color: #000;
+    border-color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(255,255,255,0.1);
+}
+.status-badge {
+    display: inline-block;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    border-left: 2px solid rgba(245, 158, 11, 0.5);
+    padding-left: 0.75rem;
+    font-style: italic;
+}
+
+/* Global Card Hover Activations */
+.mosaic-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(56, 189, 248, 0.4);
+    box-shadow: 0 25px 50px -12px rgba(6, 9, 19, 0.7), 0 0 30px rgba(37, 99, 235, 0.1);
+}
+.mosaic-card:hover .card-bg-image img {
+    transform: scale(1.04);
+    opacity: 0.55;
+}
+.system-preview {
+    background: linear-gradient(135deg, #090d16 0%, #120e24 100%);
+}
+
+/* 3. Widescreen Full-Width Tech Spotlight Section */
+.performance-spotlight {
+    background: linear-gradient(180deg, transparent, rgba(255, 255, 255, 0.015) 50%, transparent);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 7rem 2rem;
+    margin-bottom: 8rem;
+}
+.spotlight-inner {
+    max-width: 1300px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 4rem;
+}
+.spotlight-core-text { flex: 1; }
+.spotlight-core-text h2 { font-size: 2.5rem; font-weight: 800; margin: 0 0 1rem 0; letter-spacing: -0.5px; }
+.spotlight-core-text p { color: var(--text-muted); font-size: 1.15rem; line-height: 1.7; margin: 0; }
+.spotlight-perks-grid {
+    flex: 1.4;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+}
+.perk-node {
+    background: rgba(255,255,255,0.01);
+    border: 1px solid var(--border);
+    padding: 2rem;
+    border-radius: 16px;
+}
+.perk-node h3 { font-size: 1.1rem; margin: 0 0 0.75rem 0; color: var(--sky-blue); font-weight: 700; }
+.perk-node p { color: var(--text-muted); font-size: 0.9rem; line-height: 1.6; margin: 0; }
+
+/* 4. Modern Block-Reversed CTA Section */
+.custom-portfolio-cta {
+    max-width: 1300px;
+    margin: 0 auto 8rem;
+    padding: 0 2rem;
+}
+.cta-card-wrapper {
+    background: radial-gradient(circle at top right, rgba(37, 99, 235, 0.15), rgba(6, 9, 19, 0.9));
+    border: 1px solid rgba(56, 189, 248, 0.2);
+    border-radius: 32px;
+    padding: 4rem 5rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 4rem;
-    padding: 8rem 5% 4rem;
-    max-width: 1300px;
-    margin: 0 auto;
-}
-.portfolio-hero .hero-content { flex: 1; min-width: 300px; }
-.portfolio-hero .hero-content h1 { font-size: clamp(2.5rem, 5vw, 4rem); margin-top: 1rem; margin-bottom: 1.5rem; line-height: 1.1; }
-.portfolio-hero .hero-content h1 span { color: var(--sky-blue); }
-.portfolio-hero .hero-content p { color: var(--text-muted); font-size: 1.2rem; line-height: 1.8; margin-bottom: 2rem; }
-
-.hero-image-box {
-    flex: 1;
+    gap: 3rem;
     position: relative;
-    min-width: 300px;
-    display: flex;
-    justify-content: center;
+    overflow: hidden;
 }
-.floating-img {
-    width: 100%;
-    max-width: 500px;
-    border-radius: 24px;
-    border: 2px solid rgba(56,189,248,0.3);
-    box-shadow: 0 20px 50px rgba(37,99,235,0.2);
-    animation: float 6s ease-in-out infinite;
-    object-fit: cover;
-    aspect-ratio: 4/3;
-    background: #111;
-}
+.cta-text-left h2 { font-size: 2.4rem; font-weight: 800; margin: 0 0 0.75rem 0; }
+.cta-text-left p { color: var(--text-muted); font-size: 1.1rem; margin: 0; }
+.cta-actions-right { display: flex; gap: 1rem; align-items: center; flex-shrink: 0; }
 
-@keyframes float {
-    0% { transform: translateY(0px); }
-    50% { transform: translateY(-20px); }
-    100% { transform: translateY(0px); }
-}
-
-/* Float Badges for Portfolio Stats */
-.stat-card {
-    position: absolute;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-left: 3px solid var(--sky-blue);
-    padding: 0.8rem 1.4rem;
-    border-radius: 12px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
-    animation: float 5s ease-in-out infinite;
-    z-index: 5;
-}
-.stat-1 { bottom: 10%; left: -15px; animation-delay: -2.5s; }
-.stat-2 { top: 12%; right: -10px; animation-delay: -4.5s; }
-.stat-num { font-size: 1.6rem; font-weight: bold; color: var(--sky-blue); line-height: 1.2; }
-.stat-label { font-size: 0.8rem; color: var(--text-muted); margin-top: 0.1rem; }
-
-/* 2. Horizontal Interactive Capabilities Strip */
-.portfolio-strip-section { padding: 4rem 2rem; overflow: hidden; background: rgba(255,255,255,0.02); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); margin-bottom: 6rem; }
-.portfolio-marquee {
-    display: flex;
-    gap: 2rem;
-    justify-content: center;
-    flex-wrap: wrap;
-    max-width: 1000px;
-    margin: 2rem auto 0;
-}
-.tech-box {
-    background: var(--surface);
-    border: 1px solid var(--border);
+.action-trigger-primary {
+    background: var(--sky-blue);
+    color: #000;
     padding: 1rem 2rem;
     border-radius: 50px;
-    color: var(--sky-blue);
-    font-weight: bold;
-    transition: all 0.3s ease;
-    cursor: default;
-}
-.tech-box:hover { background: var(--sky-blue); color: #fff; transform: scale(1.1); box-shadow: 0 0 20px rgba(56,189,248,0.4); }
-
-/* 3. Portfolio Grid Layout */
-.portfolio-showcase { max-width: 1300px; margin: 0 auto 8rem; padding: 0 2rem; }
-.portfolio-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 2.5rem;
-    justify-content: center;
-}
-.portfolio-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 20px;
-    padding: 2rem;
-    transition: all 0.4s ease;
-    overflow: hidden;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-}
-.portfolio-card:hover {
-    transform: translateY(-8px);
-    border-color: var(--sky-blue);
-    box-shadow: 0 15px 35px rgba(37,99,235,0.15);
-}
-.card-image {
-    width: 100%;
-    height: 200px;
-    border-radius: 12px;
-    margin-bottom: 1.5rem;
-    overflow: hidden;
-    background: #1a1a1a;
-    border: 1px solid rgba(255,255,255,0.05);
-}
-.card-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.5s ease;
-}
-.portfolio-card:hover .card-image img { transform: scale(1.06); }
-.portfolio-card h2 { font-size: 1.5rem; margin-bottom: 1rem; color: #fff; }
-.project-desc { color: var(--text-muted); font-size: 0.98rem; line-height: 1.7; flex-grow: 1; margin-bottom: 1.5rem; }
-
-.project-footer { display: flex; align-items: center; justify-content: flex-start; }
-.project-link {
-    color: var(--sky-blue);
+    font-weight: 700;
     text-decoration: none;
-    font-weight: 600;
-    font-size: 0.95rem;
-    transition: color 0.3s;
+    transition: all 0.3s ease;
 }
-.project-link:hover { color: #fff; text-decoration: underline; }
-.project-status { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); font-weight: bold; }
-
-.highlight-card { background: linear-gradient(135deg, rgba(37,99,235,.03), rgba(124,58,237,.03)); border-color: rgba(56,189,248,0.2); }
-
-/* 4. Digital Impact Section (Overlapping Layout Template) */
-.impact-section { max-width: 1200px; margin: 0 auto 8rem; padding: 0 2rem; }
-.impact-container {
-    display: flex;
-    align-items: center;
-    position: relative;
-    border-radius: 30px;
+.action-trigger-primary:hover {
+    background: #fff;
+    transform: translateY(-2px);
 }
-.impact-image {
-    width: 60%;
-    position: relative;
-    border-radius: 24px;
-    overflow: hidden;
-}
-.impact-image img { width: 100%; height: 450px; object-fit: cover; display: block; background: #1a1a1a; }
-.impact-glow {
-    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(17,24,39,1));
-}
-.impact-text-box {
-    background: rgba(17, 24, 39, 0.85);
-    backdrop-filter: blur(15px);
+.action-trigger-secondary {
     border: 1px solid var(--border);
-    padding: 4rem;
-    border-radius: 24px;
-    width: 50%;
-    position: absolute;
-    right: 0;
-    box-shadow: -20px 20px 50px rgba(0,0,0,0.5);
-    border-right: 4px solid var(--sky-blue);
+    color: #fff;
+    padding: 1rem 2rem;
+    border-radius: 50px;
+    font-weight: 700;
+    text-decoration: none;
+    background: rgba(0,0,0,0.2);
+    transition: all 0.3s ease;
 }
-.impact-text-box span { color: var(--sky-blue); font-size: 0.85rem; font-weight: bold; letter-spacing: 2px; text-transform: uppercase; }
-.impact-text-box h2 { font-size: 2.2rem; margin-top: 0.5rem; margin-bottom: 1rem; }
-.impact-text-box p { color: var(--text-muted); line-height: 1.8; font-size: 1.1rem; }
-
-/* 5. Success / Philosophy Statement Card */
-.success-section { max-width: 800px; margin: 0 auto 8rem; padding: 0 2rem; }
-.success-card {
-    background: linear-gradient(145deg, rgba(255,255,255,0.05), transparent);
-    border: 1px solid rgba(255,255,255,0.1);
-    padding: 4rem;
-    border-radius: 24px;
-    text-align: center;
-    position: relative;
-    box-shadow: inset 0 0 50px rgba(0,0,0,0.5);
+.action-trigger-secondary:hover {
+    border-color: #fff;
+    background: rgba(255,255,255,0.05);
 }
-.success-card::before {
-    content: "”";
-    position: absolute; top: -30px; left: 50%; transform: translateX(-50%);
-    font-size: 8rem; color: rgba(56,189,248,0.2); line-height: 1; font-family: serif;
-}
-.success-quote { font-size: 1.4rem; font-style: italic; line-height: 1.8; margin-bottom: 2rem; }
-.success-author { color: var(--sky-blue); font-weight: bold; letter-spacing: 2px; text-transform: uppercase; }
 
-/* 6. CTA Setup */
-.portfolio-cta { text-align: center; padding: 6rem 2rem; background: rgba(17,24,39,0.5); border-top: 1px solid var(--border); }
-.portfolio-cta h2 { font-size: 2.2rem; margin-bottom: 1rem; }
-.portfolio-cta p { color: var(--text-muted); max-width: 600px; margin: 0 auto 2rem; line-height: 1.7; }
-.cta-buttons { display: flex; gap: 1rem; justify-content: center; }
-
-.pulse-btn { animation: btnPulse 2s infinite; }
-@keyframes btnPulse {
-    0% { box-shadow: 0 0 0 0 rgba(56, 189, 248, 0.4); }
+/* Pulsing highlight effect for the main link trigger */
+.glow-pulse { animation: pulseShield 2.5s infinite; }
+@keyframes pulseShield {
+    0% { box-shadow: 0 0 0 0 rgba(56, 189, 248, 0.5); }
     70% { box-shadow: 0 0 0 15px rgba(56, 189, 248, 0); }
     100% { box-shadow: 0 0 0 0 rgba(56, 189, 248, 0); }
 }
 
-/* 7. Mobile Responsive Modifiers */
+/* 5. Fluid Responsive Adaptations */
+@media (max-width: 1100px) {
+    .spotlight-inner { flex-direction: column; gap: 3rem; }
+    .spotlight-perks-grid { grid-template-columns: 1fr; width: 100%; }
+    .cta-card-wrapper { flex-direction: column; text-align: center; padding: 4rem 3rem; }
+    .cta-actions-right { flex-direction: column; width: 100%; }
+    .action-trigger-primary, .action-trigger-secondary { width: 100%; text-align: center; box-sizing: border-box; }
+}
+
 @media (max-width: 900px) {
-    .portfolio-hero { flex-direction: column; text-align: center; padding-top: 6rem; }
-    .hero-image-box { width: 100%; min-width: auto; }
-    .stat-card { display: none; }
+    .creative-hero-centered { padding-top: 8rem; }
+    .hero-metrics { flex-direction: column; gap: 1.5rem; width: 100%; box-sizing: border-box; }
+    .metric-divider { width: 40px; height: 1px; }
     
-    .impact-container { flex-direction: column; }
-    .impact-image, .impact-text-box { width: 100%; position: static; }
-    .impact-text-box { margin-top: -50px; border-right: none; border-top: 4px solid var(--sky-blue); padding: 2.5rem; }
-    .impact-glow { background: linear-gradient(180deg, transparent, rgba(17,24,39,1)); }
-    
-    .cta-buttons { flex-direction: column; align-items: center; }
-    .success-card { padding: 3rem 2rem; }
+    /* Break asymmetric mosaic layers down cleanly to vertical layout stack */
+    .mosaic-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .card-wide, .card-compact, .card-half { grid-column: span 12 !important; height: 420px; }
+    .card-overlay-content { padding: 2rem; }
+    .project-summary { max-width: 100%; }
+    .cta-text-left h2 { font-size: 1.8rem; }
 }
