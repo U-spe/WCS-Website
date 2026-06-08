@@ -16,8 +16,26 @@ async function loadComponent(id, file) {
     }
 }
 
+// Automatically builds and injects the favicon globally
+function initGlobalFavicon() {
+    let favicon = document.querySelector("link[rel*='icon']");
+    
+    if (!favicon) {
+        favicon = document.createElement('link');
+        favicon.rel = 'icon';
+        favicon.type = 'image/x-icon'; // Adjust to 'image/png' if your asset is a PNG
+        document.head.appendChild(favicon);
+    }
+    
+    favicon.href = '/images/logos/wcs-favicon.ico';
+}
+
 document.addEventListener("DOMContentLoaded", async () => {
 
+    // Initialize global assets
+    initGlobalFavicon();
+
+    // Load layout structures
     await loadComponent(
         "navbar-container",
         "nav/header.html"
@@ -28,8 +46,8 @@ document.addEventListener("DOMContentLoaded", async () => {
         "nav/footer.html"
     );
 
+    // Navbar scroll functionality
     let lastScroll = 0;
-
     const navbar = document.querySelector(".navbar");
 
     if (!navbar) return;
